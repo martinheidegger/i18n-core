@@ -1,0 +1,20 @@
+{
+  "name": "i18n-core",
+  "version": "1.0.0",
+  "description": "Basic i18n translation. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "lab -c"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mockery": "^1.4.0",
+    "mustache": "^0.8.2",
+    "sprintf": "^0.1.4"
+  },
+  "devDependencies": {
+    "code": "^1.2.1",
+    "lab": "^5.1.0"
+  }
+}
