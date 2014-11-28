@@ -1,5 +1,8 @@
 # i18n-core
 
+[![Build Status](https://travis-ci.org/martinheidegger/i18n-core.svg)](https://travis-ci.org/martinheidegger/i18n-core)
+[![Code Climate](https://codeclimate.com/github/martinheidegger/i18n-core/badges/gpa.svg)](https://codeclimate.com/github/martinheidegger/i18n-core)
+
 [i18n-core](https://github.io/martinheidegger/i18n-core) is a no-fuzz Node.js implementation of i18n. It doesn't connect to express or any other fancy Node framework and is extensible where it needs to be and allows to reduce the complexity of other i18n implementations (thus the name).
 
 It implements basic variable replacements in the mustache and sprintf manner.
