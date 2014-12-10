@@ -1,6 +1,6 @@
 "use strict";
 
-function defaultFallback(prefix, key, namedValues, args) {
+function defaultFallback(key) {
 	if (!key) {
 		return "(?)";
 	}
@@ -17,16 +17,19 @@ function getLookup(data) {
 	return require("./lookup/object")(data || {});
 }
 
+function getKey(prefix, key) {
+	return (prefix !== null && prefix !== undefined) ? ((key !== null && key !== undefined) ? prefix + key : prefix) : key;
+}
+
 function defaultTranslation(prefix, keys, fallbackKey, namedValues, args) {
 	var result,
 		keyNo = 0;
 	while (!result && keyNo < keys.length) {
-		result = this.lookup.get(prefix + keys[keyNo]);
+		result = this.lookup.get(getKey(prefix, keys[keyNo]));
 		keyNo += 1;
 	}
-	if (result === null
-		|| result === undefined) {
-		result = this.fallback(prefix, fallbackKey, namedValues, args);
+	if (result === null || result === undefined) {
+		result = this.fallback(getKey(prefix, fallbackKey));
 	}
 	if (namedValues && (/{{.*}}/).test(result)) {
 		result = this.mustache.render(result, namedValues);
