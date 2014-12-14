@@ -18,7 +18,7 @@ function getLookup(data) {
 }
 
 function getKey(prefix, key) {
-	return (prefix !== null && prefix !== undefined) ? ((key !== null && key !== undefined) ? prefix + key : prefix) : key;
+	return (key !== null && key !== undefined) ? prefix + key : prefix;
 }
 
 function defaultTranslation(prefix, keys, fallbackKey, namedValues, args) {
@@ -40,8 +40,8 @@ function defaultTranslation(prefix, keys, fallbackKey, namedValues, args) {
 	return result;
 }
 
-module.exports = function (data) {
-	var translator = require("./lib/createTranslator")("");
+module.exports = function (data, allowModification) {
+	var translator = require("./lib/createTranslator")("", null, allowModification);
 	translator.lookup = getLookup(data);
 	translator.fallback = defaultFallback;
 	translator.mustache = require("mustache");

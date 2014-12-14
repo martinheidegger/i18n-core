@@ -73,6 +73,52 @@ test("mixed mustache & args testing", function (done) {
 	done();
 });
 
+test("changing of the language should be possible after the fact if allowed", function (done) {
+	var translator = i18n(__dirname + "/lookup").lang("en", true),
+		__ = translator.__;
+
+	expect(__("d")).to.equal("e");
+	translator.changeLang("gr");
+	expect(__("d")).to.equal("g");
+	done();
+});
+
+test("changing of the prefix should be possible after the fact if allowed", function (done) {
+	var translator = i18n(__dirname + "/lookup").lang("en", true),
+		__ = translator.__;
+
+	expect(__("d")).to.equal("e");
+	translator.changePrefix("gr.");
+	expect(__("d")).to.equal("g");
+	done();
+});
+
+test("changing of the language should not be possible after the fact", function (done) {
+	var translator = i18n(__dirname + "/lookup").lang("en"),
+		__ = translator.__;
+
+	expect(__("d")).to.equal("e");
+	try {
+		translator.changeLang("gr");
+	} catch(e) {
+		expect(__("d")).to.equal("e");
+		done();
+		return;
+	}
+	throw new Error("Translation should be blocked.")
+});
+
+test("changing of the prefix should affect the subprefix", function (done) {
+	var translator = i18n(__dirname + "/lookup").sub("g", true),
+		translator2 = translator.lang("n"),
+		__ = translator2.__;
+
+	translator.changePrefix("e");
+
+	expect(__("d")).to.equal("e");
+	done();
+});
+
 test("plurals", function (done) {
 	var translator = i18n().lang("en"),
 		__n = translator.__n;
@@ -134,11 +180,22 @@ test("undefined key in namespace", function (done) {
 });
 
 test("null namespace with key", function (done) {
-	var translator = i18n("./lookup").sub(null);
-	expect(translator.__("ho")).to.equal("ho");
-	done();
+	try {
+		var translator = i18n("./lookup").sub(null);
+	} catch(e) {
+		return done();
+	}
+	throw new Error("Should not be allowed.");
 });
 
+test("undefined namespace with key", function (done) {
+	try {
+		var translator = i18n("./lookup").sub(undefined);
+	} catch(e) {
+		return done();
+	}
+	throw new Error("Should not be allowed.");
+});
 
 test("plural fallbacks", function (done) {
 	var translator = i18n().lang("en"),
