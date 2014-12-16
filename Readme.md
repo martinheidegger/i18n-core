@@ -40,19 +40,19 @@ en.__("d") // e!
 The system is based on `lookup` implementations that allow the system to use different sources to get its strings from. The examples before used an object and because of this the former example would be equal to:
 
 ```JavaScript
-var i18n = i18n_core(require("i18n-core/lookup/object")({a: "b"}));
+var i18n = i18n_core(require("i18n-core/lookup/object")({a: "b"}))
 ```
 
 If you were to pass in a string to `i18n-core` instead like this:
 
 ```JavaScript
-var i18n = i18n_core("./");
+var i18n = i18n_core("./")
 ```
 
 Then it would be equal the primitive file-system lookup same like this:
 
 ```JavaScript
-var i18n = i18n_core(require("i18n-core/lookup/fs")("./"));
+var i18n = i18n_core(require("i18n-core/lookup/fs")("./"))
 ```
 
 You can pass in your own strategy by given an object to the constructor that contains a "get"-method:
@@ -62,7 +62,7 @@ var i18n = i18n_core({
     get: function (key) {
         return null; // Who needs translation anyway?
     }
-});
+})
 ```
 
 *i18n-core* does implement basic placeholder replacements like:
@@ -78,5 +78,26 @@ It also offers [mustache](https://github.com/janl/mustache.js) pattern replaceme
 ```JavaScript
 en.__("{{name}} are cool too", {name: "you"}); // "you are cool too"
 ```
+
+It is possible to chain translation prefixes like this:
+
+```JavaScript
+var at = i18n_core({de:{at: {hello: "Zewas!"}}}).lang("de").lang("at");
+at.__("hello") // Zewas!
+```
+
+and you can also change the chain if you want to.
+
+```JavaScript
+var translate = i18n_core({
+    de: {title: "Meine Webseite"},
+    en: {title: "My Website"}
+}).lang("de", true)
+translate.__("title") // Meine Website
+translate.changeLang("en")
+translate.__("title") // My Website
+```
+
+To prevent malicious use the changing of the language is prevented unless you pass a `true` flag to it.
 
 If you have any questions, please post them as issue, thanks!
