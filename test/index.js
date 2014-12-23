@@ -6,7 +6,21 @@ var code = require('code'),
 	expect = code.expect;
 
 test("basic object lookup", function (done) {
-	expect(i18n({a: "b"}).__("a")).to.equal("b");
+	var translator = i18n({a: "b"})
+	expect(translator.__("a")).to.equal("b");
+	expect(translator.__("c")).to.equal("c");
+	done();
+});
+
+test("basic existance object lookup", function (done) {
+	var translator = i18n({a: "b", c: null, d: {e: "f", g: null}}),
+		d = translator.lang('d');
+	expect(translator.has("a")).to.equal(true);
+	expect(translator.has("b")).to.equal(false);
+	expect(translator.has("c")).to.equal(false);
+	expect(d.has("e")).to.equal(true);
+	expect(d.has("g")).to.equal(false);
+	expect(d.has("h")).to.equal(false);
 	done();
 });
 

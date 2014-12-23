@@ -40,10 +40,16 @@ function defaultTranslation(prefix, keys, fallbackKey, namedValues, args) {
 	return result;
 }
 
+function has(prefix, key) {
+	var val = this.lookup.get(getKey(prefix, key));
+	return val !== undefined && val !== null;
+}
+
 module.exports = function (data, allowModification) {
 	var translator = require("./lib/createTranslator")("", null, allowModification);
 	translator.lookup = getLookup(data);
 	translator.fallback = defaultFallback;
+	translator.has = has;
 	translator.mustache = require("mustache");
 	translator.vsprintf = require("sprintf").vsprintf;
 	translator.translate = defaultTranslation;
