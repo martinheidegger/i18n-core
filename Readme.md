@@ -103,9 +103,16 @@ To prevent malicious use the changing of the language is prevented unless you pa
 In some instances it is necessary to know in advance if a key has a value or not, in this case you can use `has`.
 
 ```JavaScript
-var translate = i18n_core({title: "My Website"});
+var translate = i18n_core({title: "My Website"})
 translate.has("title") // true
 translate.has("subtitle") // false
+```
+
+Additionally, for module development, its possible to access the raw data using `raw`:
+
+```JavaScript
+var translate = i18n_core({no: {val: 5}})
+translate.raw("no") // {val: 5}
 ```
 
 If you have any questions, please post them as issue, thanks!

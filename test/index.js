@@ -18,9 +18,26 @@ test("basic existance object lookup", function (done) {
 	expect(translator.has("a")).to.equal(true);
 	expect(translator.has("b")).to.equal(false);
 	expect(translator.has("c")).to.equal(false);
+	expect(translator.has("d")).to.equal(true);
 	expect(d.has("e")).to.equal(true);
 	expect(d.has("g")).to.equal(false);
 	expect(d.has("h")).to.equal(false);
+	done();
+});
+
+test("raw passthrough lookup", function (done) {
+	var translator = i18n({a: "b", c: null, d: {e: "f", g: null}}),
+		d = translator.lang('d');
+	expect(translator.raw("a")).to.equal("b");
+	expect(translator.raw("b")).to.equal(undefined);
+	expect(translator.raw("c")).to.equal(null);
+	expect(translator.raw("d")).to.deep.equal({
+		e: "f",
+		g: null
+	});
+	expect(d.raw("e")).to.equal("f");
+	expect(d.raw("g")).to.equal(null);
+	expect(d.raw("h")).to.equal(undefined);
 	done();
 });
 

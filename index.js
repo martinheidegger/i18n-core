@@ -25,7 +25,7 @@ function defaultTranslation(prefix, keys, fallbackKey, namedValues, args) {
 	var result,
 		keyNo = 0;
 	while (!result && keyNo < keys.length) {
-		result = this.lookup.get(getKey(prefix, keys[keyNo]));
+		result = this.raw(prefix, keys[keyNo]);
 		keyNo += 1;
 	}
 	if (result === null || result === undefined) {
@@ -41,8 +41,12 @@ function defaultTranslation(prefix, keys, fallbackKey, namedValues, args) {
 }
 
 function has(prefix, key) {
-	var val = this.lookup.get(getKey(prefix, key));
+	var val = this.raw(prefix, key);
 	return val !== undefined && val !== null;
+}
+
+function raw(prefix, key) {
+	return this.lookup.get(getKey(prefix, key));
 }
 
 module.exports = function (data, allowModification) {
@@ -50,6 +54,7 @@ module.exports = function (data, allowModification) {
 	translator.lookup = getLookup(data);
 	translator.fallback = defaultFallback;
 	translator.has = has;
+	translator.raw = raw;
 	translator.mustache = require("mustache");
 	translator.vsprintf = require("sprintf").vsprintf;
 	translator.translate = defaultTranslation;
