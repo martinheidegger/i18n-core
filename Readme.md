@@ -92,12 +92,20 @@ and you can also change the chain if you want to.
 var translate = i18n_core({
     de: {title: "Meine Webseite"},
     en: {title: "My Website"}
-}).lang("de", true)
+}).lang("de", true) // <- this true is important :)
 translate.__("title") // Meine Website
 translate.changeLang("en")
 translate.__("title") // My Website
 ```
 
 To prevent malicious use the changing of the language is prevented unless you pass a `true` flag to it.
+
+In some instances it is necessary to know in advance if a key has a value or not, in this case you can use `has`.
+
+```JavaScript
+var translate = i18n_core({title: "My Website"});
+translate.has("title") // true
+translate.has("subtitle") // false
+```
 
 If you have any questions, please post them as issue, thanks!
