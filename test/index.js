@@ -250,6 +250,36 @@ test("plural special fallbacks", function (done) {
 	done();
 });
 
+test("sprintf strings to be treated as strings", function (done) {
+	var __ = i18n().__;
+	expect(__('%s', 1)).to.equal("1");
+	expect(__('%s', "01")).to.equal("01");
+	expect(__('%s', false)).to.equal("false");
+	expect(__('%s', "false")).to.equal("false");
+	expect(__('%s', true)).to.equal("true");
+	expect(__('%s', "true")).to.equal("true");
+	expect(__('%s', null)).to.equal("null");
+	expect(__('%s', "null")).to.equal("null");
+	expect(__('%s', undefined)).to.equal("undefined");
+	expect(__('%s', "undefined")).to.equal("undefined");
+	done();
+});
+
+test("mustach strings to be treated as strings", function (done) {
+	var __ = i18n({"$": "{{data}}"}).__;
+	expect(__('$', {data: 1})).to.equal("1");
+	expect(__('$', {data: "01"})).to.equal("01");
+	expect(__('$', {data: false})).to.equal("false");
+	expect(__('$', {data: "false"})).to.equal("false");
+	expect(__('$', {data: true})).to.equal("true");
+	expect(__('$', {data: "true"})).to.equal("true");
+	expect(__('$', {data: null})).to.equal("");
+	expect(__('$', {data: "null"})).to.equal("null");
+	expect(__('$', {data: undefined})).to.equal("");
+	expect(__('$', {data: "undefined"})).to.equal("undefined");
+	done();
+});
+
 test("same translator", function (done) {
 	var set = i18n();
 	expect(set.lang("en")).to.equal(set.lang("en"));
