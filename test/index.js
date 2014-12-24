@@ -241,6 +241,14 @@ test("plural fallbacks", function (done) {
 	done();
 });
 
+test("plural special fallbacks", function (done) {
+	var translator = i18n({a: "b", c: {one: "d", other: "e"}}),
+		__n = translator.__n;
+	expect(__n("a", 2)).to.equal("b");
+	expect(__n("c", 2)).to.equal("e");
+	expect(__n("g", {other: "f"}, 2)).to.equal("f");
+	done();
+});
 
 test("same translator", function (done) {
 	var set = i18n();
