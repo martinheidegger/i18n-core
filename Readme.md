@@ -7,7 +7,7 @@
 
 It implements basic variable replacements in the mustache and sprintf manner.
 
-# Usage
+# Installation
 
 To use *i18n-core* all you need to do is install it using ```npm```
 
@@ -15,26 +15,29 @@ To use *i18n-core* all you need to do is install it using ```npm```
 $ npm i i18n-core --save
 ```
 
-To use *i18n-core* you need require it in your javascript file.
+# Usage
 
 ```JavaScript
 var i18n_core = require("i18n-core")
+var i18n = i18n_core({greeting: "hello!"})
+i18n.__("greeting") // hello!
 ```
 
-You can then initialize and use the library like this:
+To have different namespaces for different languages you can get a prefixed subpart using `.lang()`.
 
 ```JavaScript
-var i18n = i18n_core({a: "b"})
-i18n.__("a") // b!
+
+var i18n = i18n_core({
+  en: { greeting: "hello!" },
+  de: { greeting: "guten tag!"}
+})
+
+var en = i18n.lang("en")
+en.__("greeting") // hello!
+
+var de = i18n.lang("de")
+de.__("greeting") // guten tag!
 ```
-
-To have different namespaces for different language you can get a prefixed subpart using `.lang()`.
-
-```JavaScript
-var en = i18n_core({en: {d: "e"}}).lang("en")
-en.__("d") // e!
-```
-
 *Note: `.lang(<lang>)` is the same thing as `.sub(<lang> + ".")`*
 
 The system is based on `lookup` implementations that allow the system to use different sources to get its strings from. The examples before used an object and because of this the former example would be equal to:
