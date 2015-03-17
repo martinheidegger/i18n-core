@@ -23,7 +23,7 @@ var i18n = i18n_core({greeting: "hello!"})
 i18n.__("greeting") // hello!
 ```
 
-To have different namespaces for different language you can get a prefixed subpart using `.lang()`.
+To have different namespaces for different languages you can get a prefixed subpart using `.lang()`.
 
 ```JavaScript
 
