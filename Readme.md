@@ -43,7 +43,7 @@ de.__("greeting") // guten tag!
 The system is based on `lookup` implementations that allow the system to use different sources to get its strings from. The examples before used an object and because of this the former example would be equal to:
 
 ```JavaScript
-var i18n = i18n_core(require("i18n-core/lookup/object")({a: "b"}))
+var i18n = i18n_core(require("i18n-core/lookup/object")({greeting: "hello!"}))
 ```
 
 If you were to pass in a string to `i18n-core` instead like this:
