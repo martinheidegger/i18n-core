@@ -28,12 +28,8 @@ To have different namespaces for different languages you can get a prefixed subp
 ```JavaScript
 
 var i18n = i18n_core({
-  en: {
-    greeting: "hello!"
-  },
-  de: {
-    greeting: "guten tag!"
-  }
+  en: { greeting: "hello!" },
+  de: { greeting: "guten tag!"}
 })
 
 var en = i18n.lang("en")
