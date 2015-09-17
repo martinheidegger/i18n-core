@@ -70,6 +70,17 @@ var i18n = i18n_core({
 })
 ```
 
+In case you need to have several strategies that need to be chained you can use
+the chain lookup:
+
+```JavaScript
+var i18nChain = require("i18n-core/lookup/chain")
+var i18nObject = require("i18n-core/lookup/object")
+var i18n = i18n_core(i18nChain(i18nObject({a: "x"}), i18nObject({a: 0, b: 1})))
+i18n.__('a') // x
+i18n.__('b') // 1
+```
+
 *i18n-core* does implement basic placeholder replacements like:
 
 ```JavaScript

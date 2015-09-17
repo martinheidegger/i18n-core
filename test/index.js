@@ -265,7 +265,7 @@ test("sprintf strings to be treated as strings", function (done) {
 	done();
 });
 
-test("mustach strings to be treated as strings", function (done) {
+test("mustache strings to be treated as strings", function (done) {
 	var __ = i18n({"$": "{{data}}"}).__;
 	expect(__('$', {data: 1})).to.equal("1");
 	expect(__('$', {data: "01"})).to.equal("01");
@@ -283,5 +283,23 @@ test("mustach strings to be treated as strings", function (done) {
 test("same translator", function (done) {
 	var set = i18n();
 	expect(set.lang("en")).to.equal(set.lang("en"));
+	done();
+});
+
+test("sprintf should be ignored when the given array has a length = 0", function (done) {
+	expect(i18n().translate("a %2", {}, [])).to.equal("a %2");
+	done();
+});
+
+test("An undefined sub should work just fine", function (done) {
+	expect(i18n({en: "a"}).sub("en").__(undefined)).to.equal("a");
+	expect(i18n({en: "a"}).sub("en").__(null)).to.equal("a");
+	done();
+});
+
+test("multiple keys with one being an empty string", function (done) {
+	var translate = i18n({"a": "", "b": "ho"}).translate;
+	debugger;
+	expect(translate("a")).to.equal("");
 	done();
 });
