@@ -42,6 +42,8 @@ de.__("greeting") // guten tag!
 ```
 *Note: `.lang(<lang>)` is the same thing as `.sub(<lang> + ".")`*
 
+## Lookups
+
 The system is based on `lookup` implementations that allow the system to use different sources to get its strings from. The examples before used an object and because of this the former example would be equal to:
 
 ```JavaScript
@@ -54,7 +56,7 @@ If you were to pass in a string to `i18n-core` instead like this:
 var i18n = i18n_core("./")
 ```
 
-Then it would be equal the primitive file-system lookup same like this:
+Then it would be equal the primitive **file-system** lookup same like this:
 
 ```JavaScript
 var i18n = i18n_core(require("i18n-core/lookup/fs")("./"))
@@ -71,7 +73,7 @@ var i18n = i18n_core({
 ```
 
 In case you need to have several strategies that need to be chained you can use
-the chain lookup:
+the **chain lookup**:
 
 ```JavaScript
 var i18nChain = require("i18n-core/lookup/chain")
@@ -80,6 +82,22 @@ var i18n = i18n_core(i18nChain(i18nObject({a: "x"}), i18nObject({a: 0, b: 1})))
 i18n.__('a') // x
 i18n.__('b') // 1
 ```
+
+In case you have an `i18n` object that you want to use as lookup for another `i18` object you can **extend** them:
+
+```JavaScript
+var i18nExtend = require("i18n-core/lookup/extend")
+var i18nObject = require("i18n-core/lookup/object")
+var i18nA = i18n({a: "x"})
+var i18nB = i18n(i18nExtend(i18nA, i18nObject({
+    b: 1
+})))
+
+i18n.__('a') // x
+i18n.__('b') // 1
+```
+
+## Substitution
 
 *i18n-core* does implement basic placeholder replacements like:
 
@@ -94,6 +112,9 @@ It also offers [mustache](https://github.com/janl/mustache.js) pattern replaceme
 ```JavaScript
 en.__("{{name}} are cool too", {name: "you"}); // "you are cool too"
 ```
+
+
+## Advanced Namespaces
 
 It is possible to chain translation prefixes like this:
 
@@ -130,5 +151,7 @@ Additionally, for module development, its possible to access the raw data using 
 var translate = i18n_core({no: {val: 5}})
 translate.raw("no") // {val: 5}
 ```
+
+## Outro
 
 If you have any questions, please post them as issue, thanks!
