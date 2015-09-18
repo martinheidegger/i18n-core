@@ -3,13 +3,20 @@ var code = require('code'),
 	lab = exports.lab = require('lab').script(),
 	test = lab.test,
 	fs = require("../../lookup/fs"),
-	expect = code.expect;
+	path = require("path"),
+	expect = code.expect,
+	folder = path.join(__dirname, 'fs');
 
 test("custom strategy", function (done) {
 	var strategy = {},
 		lookup = fs("", strategy);
 
 	expect(lookup.strategy).to.equal(strategy);
+	done();
+});
+
+test("missing file lookup", function (done) {
+	expect(fs(folder).get("de.b")).to.equal(undefined);
 	done();
 });
 
@@ -23,7 +30,7 @@ test("undefined subkey", function (done) {
 
 test("same file more than once", function (done) {
 	var strategy = {},
-		lookup = fs(__dirname);
+		lookup = fs(folder);
 
 	expect(lookup.get("en.b")).to.equal("c");
 	expect(lookup.get("en.d")).to.equal("e");
@@ -32,7 +39,7 @@ test("same file more than once", function (done) {
 
 test("empty file", function (done) {
 	var strategy = {},
-		lookup = fs(__dirname);
+		lookup = fs(folder);
 
 	expect(lookup.get("ja.d")).to.equal(undefined);
 	done();
@@ -40,7 +47,7 @@ test("empty file", function (done) {
 
 test("load strategy returns null", function (done) {
 	var strategy = require("../../lookup/folder/json"),
-		lookup = fs(__dirname, strategy);
+		lookup = fs(folder, strategy);
 	strategy.load = function () { return null; };
 
 	expect(lookup.get("en.d")).to.equal(undefined);
@@ -70,14 +77,14 @@ lab.experiment("fs errors", function () {
 
 	test("fs exists error", function (done) {
 		mockery.registerMock("fs", existsMock);
-		var lookup = require("../../lookup/fs")(__dirname);
+		var lookup = require("../../lookup/fs")(folder);
 		expect(lookup.get("en")).to.equal(undefined);
 		done();
 	});
 
 	test("fs readFile error", function (done) {
 		mockery.registerMock("fs", readMock);
-		var lookup = require("../../lookup/fs")(__dirname);
+		var lookup = require("../../lookup/fs")(folder);
 		expect(lookup.get("en")).to.equal(undefined);
 		done();
 	});
