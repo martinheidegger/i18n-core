@@ -158,6 +158,7 @@ test("plurals", function (done) {
 	expect(__n("%s a {{count}}", "", 1)).to.equal("en.1 a 1");
 	expect(__n("", "%s b {{count}}", 2)).to.equal("en.2 b 2");
 	expect(__n("", "{{count}} c", 3)).to.equal("en.3 c");
+	expect(__n("", "{{count}} c", 3, null)).to.equal("en.3 c");
 	done();
 });
 
