@@ -28,7 +28,7 @@ module.exports = function (folder, strategy) {
 		folder: folder,
 		strategy: strategy,
 		get: function get(key) {
-			var keyParts = /^([^\.]*)(\.(.*))?$/.exec(key),
+			var keyParts = /^([^\.]*)(\.(.*))?$/m.exec(key),
 			    prefix = keyParts[1],
 				property = keyParts[3] || "",
 				file = this.strategy.getFile(path.resolve(this.folder, prefix)),

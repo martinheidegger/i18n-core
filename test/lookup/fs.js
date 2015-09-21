@@ -54,6 +54,16 @@ test("load strategy returns null", function (done) {
 	done();
 });
 
+test("load a problematic string", function (done) {
+	var strategy = require("../../lookup/folder/json"),
+		lookup = fs(folder, strategy),
+		problemString = ".\n";
+	strategy.load = function () { return null; };
+
+	expect(lookup.get(problemString)).to.equal(undefined);
+	done();
+});
+
 lab.experiment("fs errors", function () {
 	var mockery = require("mockery"),
 		existsMock = {
