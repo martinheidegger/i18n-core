@@ -1,13 +1,13 @@
-"use strict";
+'use strict'
 
-var makeFlat = require("../lib/makeFlat");
+var makeFlat = require('../lib/makeFlat')
 
 module.exports = function (object) {
-	var flat = makeFlat(object, {});
+  var flat = makeFlat(object, {})
 
-	return {
-		get: function lookup(key) {
-			return flat[key];
-		}
-	};
-};
+  return {
+    get: function lookup (key) {
+      return flat[key]
+    }
+  }
+}

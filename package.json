@@ -4,7 +4,7 @@
   "description": "Basic i18n translation.",
   "main": "index.js",
   "scripts": {
-    "test": "lab -c"
+    "test": "standard && lab -c"
   },
   "author": {
     "name": "Martin Heidegger",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "code": "^1.2.1",
     "lab": "^5.1.0",
-    "mockery": "^1.4.0"
+    "mockery": "^1.4.0",
+    "standard": "^5.4.1"
   }
 }
