@@ -1,7 +1,7 @@
 # i18n-core
 
 [![Join the chat at https://gitter.im/martinheidegger/i18n-core](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/martinheidegger/i18n-core?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Build Status](https://travis-ci.org/martinheidegger/i18n-core.svg)](https://travis-ci.org/martinheidegger/i18n-core)
 [![Code Climate](https://codeclimate.com/github/martinheidegger/i18n-core/badges/gpa.svg)](https://codeclimate.com/github/martinheidegger/i18n-core)
 
