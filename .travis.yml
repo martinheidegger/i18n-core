@@ -5,6 +5,10 @@ node_js:
   - '4'
   - '0.12'
   - '0.10'
+matrix:
+  include:
+  - node_js: 7
+    - secure: TDu7Yw5x2cTaBRARvlCPNFxh/GCfOqUo0tt8BNf1ezQboUqTxeEKksAYLjV1AR3WzVjZIfwo9hZUaOlK1IhKjHZlfK3Y/OWMDeoG/oNiCAaJOPTHwiPREA9ePW1YZY7ylwp/JKmpt0P9/D5jrtlL5gVFfQKH9Fk+50SZJB0bviA=
 sudo: false
 git:
   depth: 5
@@ -13,6 +17,3 @@ cache:
     - ~/.npm
 before_install:
   - npm config set spin false --global && npm i codeclimate-test-reporter -g
-env:
-  - secure: TDu7Yw5x2cTaBRARvlCPNFxh/GCfOqUo0tt8BNf1ezQboUqTxeEKksAYLjV1AR3WzVjZIfwo9hZUaOlK1IhKjHZlfK3Y/OWMDeoG/oNiCAaJOPTHwiPREA9ePW1YZY7ylwp/JKmpt0P9/D5jrtlL5gVFfQKH9Fk+50SZJB0bviA=
-  - CODECLIMATE_REPO_TOKEN=
