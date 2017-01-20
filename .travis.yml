@@ -1,15 +1,15 @@
 language: node_js
 node_js:
-  - "7"
-  - "6"
-  - "4"
-  - "0.12"
-  - "0.10"
+- '7'
+- '6'
+- '4'
+- '0.12'
+- '0.10'
 sudo: false
 git:
   depth: 5
 cache:
   directories:
-    - ~/.npm
+  - ~/.npm
 before_install:
-  - npm config set spin false --global
+- npm config set spin false --global
