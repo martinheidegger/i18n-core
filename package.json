@@ -7,7 +7,8 @@
     "tests": "test/**/*.js test/*.js"
   },
   "scripts": {
-    "test": "if-env CODECLIMATE_REPO_TOKEN && npm run cov:code-climate || if-env CI && npm run test:unit || npm run test:dev",
+    "test": "if-env CODECLIMATE_REPO_TOKEN && npm run cov:code-climate || npm run test:simple",
+    "test:simple": "if-env CI=true && npm run test:unit || npm run test:dev",
     "test:dev": "npm run lint && npm run cov:dev",
     "test:unit": "tap -- $npm_package_config_tests",
     "cov": "if-env CODECLIMATE_REPO_TOKEN && npm run cov:code-climate || npm run cov:dev",
