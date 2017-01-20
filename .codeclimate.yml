@@ -1,7 +1,10 @@
 JavaScript: true
 engines:
   eslint:
-    enabled: false
+    enabled: true
+    checks:
+      complexity:
+        enabled: false
   nodesecurity:
     enabled: true
   markdownlint:

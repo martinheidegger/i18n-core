@@ -4,8 +4,8 @@
   "description": "Basic i18n translation.",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && tap --coverage -- test/**/*.js test/*.js",
-    "lint": "standard",
+    "test": "tap --coverage -- test/**/*.js test/*.js",
+    "lint": "eslint .",
     "unit": "tap -- test/**/*.js test/*.js"
   },
   "author": {
@@ -24,8 +24,11 @@
     "url": "git@github.com:martinheidegger/i18n-core.git"
   },
   "devDependencies": {
+    "eslint": "https://registry.npmjs.org/eslint/-/eslint-3.10.2.tgz",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1",
     "mockery": "^1.4.0",
-    "standard": "^8.6.0",
     "tap": "^9.0.3"
   }
 }
