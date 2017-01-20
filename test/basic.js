@@ -140,6 +140,38 @@ test('An undefined sub should work just fine', function (t) {
   t.end()
 })
 
+test('A repeated sub should work after a changePrefix', function (t) {
+  var i = i18n({
+    en: {x: '1'},
+    de: {x: '2'}
+  })
+  var enA = i.sub('en.')
+  var enB = i.sub('en.', true)
+  var enC = i.sub('en.')
+  enB.changePrefix('de.')
+  t.equals(enA.__('x'), '1')
+  t.equals(enB.__('x'), '2')
+  t.equals(enC.__('x'), '1')
+  t.end()
+})
+
+test('A repeated sub should work after a changePrefix on the first', function (t) {
+  var i = i18n({
+    en: {x: '1'},
+    de: {x: '2'},
+    ja: {x: '3'}
+  })
+  var enA = i.sub('en.', true)
+  var enB = i.sub('en.')
+  var enC = i.sub('en.', true)
+  enA.changePrefix('de.')
+  enC.changePrefix('ja.')
+  t.equals(enA.__('x'), '2')
+  t.equals(enB.__('x'), '1')
+  t.equals(enC.__('x'), '3')
+  t.end()
+})
+
 test('multiple keys with one being an empty string', function (t) {
   var translate = i18n({'a': '', 'b': 'ho'}).translate
   t.equals(translate('a'), '')
