@@ -7,7 +7,7 @@
     "tests": "test/**/*.js test/*.js"
   },
   "scripts": {
-    "test": "if-env CODECLIMATE_REPO_TOKEN && npm run cov:code-climate || npm run test:dev",
+    "test": "if-env CODECLIMATE_REPO_TOKEN && npm run cov:code-climate || if-env CI && npm run test:unit || npm run test:dev",
     "test:dev": "npm run lint && npm run cov:dev",
     "test:unit": "tap -- $npm_package_config_tests",
     "cov": "if-env CODECLIMATE_REPO_TOKEN && npm run cov:code-climate || npm run cov:dev",
@@ -31,7 +31,7 @@
     "url": "git@github.com:martinheidegger/i18n-core.git"
   },
   "devDependencies": {
-    "eslint": "https://registry.npmjs.org/eslint/-/eslint-3.10.2.tgz",
+    "eslint": "^3.13.1",
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.0.1",

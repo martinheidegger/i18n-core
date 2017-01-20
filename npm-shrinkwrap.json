@@ -451,9 +451,9 @@
       "dev": true
     },
     "eslint": {
-      "version": "3.10.2",
-      "from": "https://registry.npmjs.org/eslint/-/eslint-3.10.2.tgz",
-      "resolved": "https://registry.npmjs.org/eslint/-/eslint-3.10.2.tgz",
+      "version": "3.13.1",
+      "from": "eslint@latest",
+      "resolved": "https://registry.npmjs.org/eslint/-/eslint-3.13.1.tgz",
       "dev": true
     },
     "eslint-config-standard": {
@@ -2406,9 +2406,9 @@
       "dev": true
     },
     "strip-json-comments": {
-      "version": "1.0.4",
-      "from": "strip-json-comments@>=1.0.1 <1.1.0",
-      "resolved": "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-1.0.4.tgz",
+      "version": "2.0.1",
+      "from": "strip-json-comments@>=2.0.1 <2.1.0",
+      "resolved": "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-2.0.1.tgz",
       "dev": true
     },
     "supports-color": {
