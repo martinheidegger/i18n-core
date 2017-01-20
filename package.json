@@ -4,9 +4,9 @@
   "description": "Basic i18n translation.",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && tap --coverage -- test/**.js",
+    "test": "npm run lint && tap --coverage -- test/**/*.js test/*.js",
     "lint": "standard",
-    "unit": "tap -- test/**.js"
+    "unit": "tap -- test/**/*.js test/*.js"
   },
   "author": {
     "name": "Martin Heidegger",
