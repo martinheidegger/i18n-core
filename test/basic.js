@@ -1,150 +1,147 @@
 'use strict'
-var code = require('code')
-var lab = exports.lab = require('lab').script()
-var test = lab.test
+var test = require('tap').test
 var i18n = require('../')
 var path = require('path')
 var fsFolder = path.join(__dirname, 'lookup', 'fs')
-var expect = code.expect
 
-test('basic object lookup', function (done) {
+test('basic object lookup', function (t) {
   var translator = i18n({a: 'b'})
-  expect(translator.__('a')).to.equal('b')
-  expect(translator.__('c')).to.equal('c')
-  done()
+  t.equals(translator.__('a'), 'b')
+  t.equals(translator.__('c'), 'c')
+  t.end()
 })
 
-test('basic existance object lookup', function (done) {
+test('basic existance object lookup', function (t) {
   var translator = i18n({a: 'b', c: null, d: {e: 'f', g: null}})
   var d = translator.lang('d')
-  expect(translator.has('a')).to.equal(true)
-  expect(translator.has('b')).to.equal(false)
-  expect(translator.has('c')).to.equal(false)
-  expect(translator.has('d')).to.equal(true)
-  expect(d.has('e')).to.equal(true)
-  expect(d.has('g')).to.equal(false)
-  expect(d.has('h')).to.equal(false)
-  done()
+  t.equals(translator.has('a'), true)
+  t.equals(translator.has('b'), false)
+  t.equals(translator.has('c'), false)
+  t.equals(translator.has('d'), true)
+  t.equals(d.has('e'), true)
+  t.equals(d.has('g'), false)
+  t.equals(d.has('h'), false)
+  t.end()
 })
 
-test('raw passthrough lookup', function (done) {
+test('raw passthrough lookup', function (t) {
   var translator = i18n({a: 'b', c: null, d: {e: 'f', g: null}})
   var d = translator.lang('d')
-  expect(translator.raw('a')).to.equal('b')
-  expect(translator.raw('b')).to.equal(undefined)
-  expect(translator.raw('c')).to.equal(null)
-  expect(translator.raw('d')).to.deep.equal({
+  t.equals(translator.raw('a'), 'b')
+  t.equals(translator.raw('b'), undefined)
+  t.equals(translator.raw('c'), null)
+  t.deepEquals(translator.raw('d'), {
     e: 'f',
     g: null
   })
-  expect(d.raw('e')).to.equal('f')
-  expect(d.raw('g')).to.equal(null)
-  expect(d.raw('h')).to.equal(undefined)
-  done()
+  t.equals(d.raw('e'), 'f')
+  t.equals(d.raw('g'), null)
+  t.equals(d.raw('h'), undefined)
+  t.end()
 })
 
-test('custom lookup', function (done) {
-  expect(i18n(require('../lookup/object')({'en': {c: 'd'}})).lang('en').__('c')).to.equal('d')
-  done()
+test('custom lookup', function (t) {
+  t.equals(i18n(require('../lookup/object')({'en': {c: 'd'}})).lang('en').__('c'), 'd')
+  t.end()
 })
 
-test('basic file lookup is used when string is given', function (done) {
-  expect(i18n(fsFolder).lang('en').__('b')).to.equal('c')
-  done()
+test('basic file lookup is used when string is given', function (t) {
+  t.equals(i18n(fsFolder).lang('en').__('b'), 'c')
+  t.end()
 })
 
-test('same translator', function (done) {
+test('same translator', function (t) {
   var set = i18n()
-  expect(set.lang('en')).to.equal(set.lang('en'))
-  done()
+  t.equals(set.lang('en'), set.lang('en'))
+  t.end()
 })
 
-test('null namespace with key', function (done) {
+test('null namespace with key', function (t) {
   try {
     i18n(fsFolder).sub(null)
   } catch (e) {
-    return done()
+    return t.end()
   }
   throw new Error('Should not be allowed.')
 })
 
-test('undefined namespace with key', function (done) {
+test('undefined namespace with key', function (t) {
   try {
     i18n(fsFolder).sub(undefined)
   } catch (e) {
-    return done()
+    return t.end()
   }
   throw new Error('Should not be allowed.')
 })
 
-test('changing of the language should be possible after the fact if allowed', function (done) {
+test('changing of the language should be possible after the fact if allowed', function (t) {
   var translator = i18n(fsFolder).lang('en', true)
   var __ = translator.__
 
-  expect(__('d')).to.equal('e')
+  t.equals(__('d'), 'e')
   translator.changeLang('gr')
-  expect(__('d')).to.equal('g')
-  done()
+  t.equals(__('d'), 'g')
+  t.end()
 })
 
-test('changing of the prefix should be possible after the fact if allowed', function (done) {
+test('changing of the prefix should be possible after the fact if allowed', function (t) {
   var translator = i18n(fsFolder).lang('en', true)
   var __ = translator.__
 
-  expect(__('d')).to.equal('e')
+  t.equals(__('d'), 'e')
   translator.changePrefix('gr.')
-  expect(__('d')).to.equal('g')
-  done()
+  t.equals(__('d'), 'g')
+  t.end()
 })
 
-test('changing of the language should not be possible after the fact', function (done) {
+test('changing of the language should not be possible after the fact', function (t) {
   var translator = i18n(fsFolder).lang('en')
   var __ = translator.__
 
-  expect(__('d')).to.equal('e')
+  t.equals(__('d'), 'e')
   try {
     translator.changeLang('gr')
   } catch (e) {
-    expect(__('d')).to.equal('e')
-    done()
+    t.equals(__('d'), 'e')
+    t.end()
     return
   }
   throw new Error('Translation should be blocked.')
 })
 
-test('changing of the prefix should affect the subprefix', function (done) {
+test('changing of the prefix should affect the subprefix', function (t) {
   var translator = i18n(fsFolder).sub('g', true)
   var translator2 = translator.lang('n')
   var __ = translator2.__
 
   translator.changePrefix('e')
 
-  expect(__('d')).to.equal('e')
-  done()
+  t.equals(__('d'), 'e')
+  t.end()
 })
 
-test('undefined fallback', function (done) {
+test('undefined fallback', function (t) {
   var translator = i18n({a: null, b: undefined})
-  expect(translator.__(null)).to.equal('(?)')
-  expect(translator.__(undefined)).to.equal('(?)')
-  expect(translator.__('a')).to.equal('a')
-  expect(translator.__('b')).to.equal('b')
-  done()
+  t.equals(translator.__(null), '(?)')
+  t.equals(translator.__(undefined), '(?)')
+  t.equals(translator.__('a'), 'a')
+  t.equals(translator.__('b'), 'b')
+  t.end()
 })
 
-test('sprintf should be ignored when the given array has a length = 0', function (done) {
-  expect(i18n().translate('a %2', {}, [])).to.equal('a %2')
-  done()
+test('sprintf should be ignored when the given array has a length = 0', function (t) {
+  t.equals(i18n().translate('a %2', {}, []), 'a %2')
+  t.end()
 })
 
-test('An undefined sub should work just fine', function (done) {
-  expect(i18n({en: 'a'}).sub('en').__(undefined)).to.equal('a')
-  expect(i18n({en: 'a'}).sub('en').__(null)).to.equal('a')
-  done()
+test('An undefined sub should work just fine', function (t) {
+  t.equals(i18n({en: 'a'}).sub('en').__(undefined), 'a')
+  t.equals(i18n({en: 'a'}).sub('en').__(null), 'a')
+  t.end()
 })
 
-test('multiple keys with one being an empty string', function (done) {
+test('multiple keys with one being an empty string', function (t) {
   var translate = i18n({'a': '', 'b': 'ho'}).translate
-  expect(translate('a')).to.equal('')
-  done()
+  t.equals(translate('a'), '')
+  t.end()
 })

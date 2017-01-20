@@ -1,27 +1,24 @@
 'use strict'
-var code = require('code')
-var lab = exports.lab = require('lab').script()
-var test = lab.test
+var test = require('tap').test
 var extend = require('../../lookup/extend')
 var i18n = require('../../')
-var expect = code.expect
 
-test('extend i18n', function (done) {
+test('extend i18n', function (t) {
   var extended = extend(i18n({
     'a': 'b'
   }), { get: function () {
     return 'c'
   }})
-  expect(extended.get('a')).to.be.equals('b')
-  expect(extended.get('b')).to.be.equals('c')
-  done()
+  t.equals(extended.get('a'), 'b')
+  t.equals(extended.get('b'), 'c')
+  t.end()
 })
 
-test('extend i18n without lookup', function (done) {
+test('extend i18n without lookup', function (t) {
   var extended = extend(i18n({
     'a': 'b'
   }))
-  expect(extended.get('a')).to.be.equals('b')
-  expect(extended.get('b')).to.be.equals(null)
-  done()
+  t.equals(extended.get('a'), 'b')
+  t.equals(extended.get('b'), null)
+  t.end()
 })

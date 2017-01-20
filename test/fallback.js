@@ -1,34 +1,31 @@
 'use strict'
-var code = require('code')
-var lab = exports.lab = require('lab').script()
-var test = lab.test
+var test = require('tap').test
 var i18n = require('../')
-var expect = code.expect
 
-test('fallback', function (done) {
+test('fallback', function (t) {
   var translator = i18n()
   var __ = translator.__
-  expect(__('a')).to.equal('a')
-  expect(__('')).to.equal('(?)')
-  done()
+  t.equals(__('a'), 'a')
+  t.equals(__(''), '(?)')
+  t.end()
 })
 
-test('custom root fallback', function (done) {
+test('custom root fallback', function (t) {
   var translator = i18n()
   translator.fallback = function () {
     return 'x'
   }
   translator = translator.lang('en')
-  expect(translator.__('a')).to.equal('x')
-  expect(translator.__('')).to.equal('x')
-  done()
+  t.equals(translator.__('a'), 'x')
+  t.equals(translator.__(''), 'x')
+  t.end()
 })
 
-test('custom child fallback should not work!', function (done) {
+test('custom child fallback should not work!', function (t) {
   var translator = i18n().lang('en')
   translator.fallback = function () {
     return 'x'
   }
-  expect(translator.__('a')).to.equal('en.a')
-  done()
+  t.equals(translator.__('a'), 'en.a')
+  t.end()
 })

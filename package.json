@@ -4,7 +4,9 @@
   "description": "Basic i18n translation.",
   "main": "index.js",
   "scripts": {
-    "test": "standard && lab -c"
+    "test": "npm run lint && tap --coverage -- test/**.js",
+    "lint": "standard",
+    "unit": "tap -- test/**.js"
   },
   "author": {
     "name": "Martin Heidegger",
@@ -22,9 +24,8 @@
     "url": "git@github.com:martinheidegger/i18n-core.git"
   },
   "devDependencies": {
-    "code": "^1.2.1",
-    "lab": "^5.1.0",
     "mockery": "^1.4.0",
-    "standard": "^5.4.1"
+    "standard": "^5.4.1",
+    "tap": "^9.0.3"
   }
 }

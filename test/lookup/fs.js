@@ -1,69 +1,69 @@
 'use strict'
-var code = require('code')
-var lab = exports.lab = require('lab').script()
-var test = lab.test
-var fs = require('../../lookup/fs')
+var tap = require('tap')
+var before = tap.before
+var after = tap.after
+var afterEach = tap.afterEach
+var test = tap.test
+var fsLookup = require('../../lookup/fs')
 var path = require('path')
-var expect = code.expect
+var jsonFolderLookup = require('../../lookup/folder/json')
 var folder = path.join(__dirname, 'fs')
 
-test('custom strategy', function (done) {
+test('custom strategy', function (t) {
   var strategy = {}
-  var lookup = fs('', strategy)
+  var lookup = fsLookup('', strategy)
 
-  expect(lookup.strategy).to.equal(strategy)
-  done()
+  t.equals(lookup.strategy, strategy)
+  t.end()
 })
 
-test('missing file lookup', function (done) {
-  expect(fs(folder).get('de.b')).to.equal(undefined)
-  done()
+test('missing file lookup', function (t) {
+  t.equals(fsLookup(folder).get('de.b'), undefined)
+  t.end()
 })
 
-test('undefined subkey', function (done) {
-  var lookup = fs('')
+test('undefined subkey', function (t) {
+  var lookup = fsLookup('')
 
-  expect(lookup.get('en')).to.equal(undefined)
-  done()
+  t.equals(lookup.get('en'), undefined)
+  t.end()
 })
 
-test('same file more than once', function (done) {
-  var lookup = fs(folder)
+test('same file more than once', function (t) {
+  var lookup = fsLookup(folder)
 
-  expect(lookup.get('en.b')).to.equal('c')
-  expect(lookup.get('en.d')).to.equal('e')
-  done()
+  t.equals(lookup.get('en.b'), 'c')
+  t.equals(lookup.get('en.d'), 'e')
+  t.end()
 })
 
-test('empty file', function (done) {
-  var lookup = fs(folder)
+test('empty file', function (t) {
+  var lookup = fsLookup(folder)
 
-  expect(lookup.get('ja.d')).to.equal(undefined)
-  done()
+  t.equals(lookup.get('ja.d'), undefined)
+  t.end()
 })
 
-test('load strategy returns null', function (done) {
-  var strategy = require('../../lookup/folder/json')
-  var lookup = fs(folder, strategy)
+test('load strategy returns null', function (t) {
+  var lookup = fsLookup(folder, jsonFolderLookup)
 
-  strategy.load = function () { return null }
+  jsonFolderLookup.load = function () { return null }
 
-  expect(lookup.get('en.d')).to.equal(undefined)
-  done()
+  t.equals(lookup.get('en.d'), undefined)
+  t.end()
 })
 
-test('load a problematic string', function (done) {
-  var strategy = require('../../lookup/folder/json')
-  var lookup = fs(folder, strategy)
+test('load a problematic string', function (t) {
+  var lookup = fsLookup(folder, jsonFolderLookup)
   var problemString = '.\n'
 
-  strategy.load = function () { return null }
+  jsonFolderLookup.load = function () { return null }
 
-  expect(lookup.get(problemString)).to.equal(undefined)
-  done()
+  t.equals(lookup.get(problemString), undefined)
+  t.end()
 })
 
-lab.experiment('fs errors', function () {
+test('fs errors', function () {
   var mockery = require('mockery')
   var existsMock = {
     existsSync: function () {
@@ -78,34 +78,34 @@ lab.experiment('fs errors', function () {
     }
   }
 
-  lab.before(function (done) {
+  before(function (t) {
     mockery.enable()
     mockery.registerAllowables(allowables)
-    done()
+    t.end()
   })
 
-  test('fs exists error', function (done) {
+  test('fs exists error', function (t) {
     mockery.registerMock('fs', existsMock)
     var lookup = require('../../lookup/fs')(folder)
-    expect(lookup.get('en')).to.equal(undefined)
-    done()
+    t.equals(lookup.get('en'), undefined)
+    t.end()
   })
 
-  test('fs readFile error', function (done) {
+  test('fs readFile error', function (t) {
     mockery.registerMock('fs', readMock)
     var lookup = require('../../lookup/fs')(folder)
-    expect(lookup.get('en')).to.equal(undefined)
-    done()
+    t.equals(lookup.get('en'), undefined)
+    t.end()
   })
 
-  lab.afterEach(function (done) {
+  afterEach(function (t) {
     mockery.deregisterMock('fs')
-    done()
+    t.end()
   })
 
-  lab.after(function (done) {
+  after(function (t) {
     mockery.disable()
     mockery.deregisterAllowables(allowables)
-    done()
+    t.end()
   })
 })

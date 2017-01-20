@@ -1,38 +1,35 @@
 'use strict'
-var code = require('code')
-var lab = exports.lab = require('lab').script()
-var test = lab.test
+var test = require('tap').test
 var chain = require('../../lookup/chain')
-var expect = code.expect
 
-test('empty chain', function (done) {
-  expect(chain().get('a')).to.be.equals(undefined)
-  expect(chain().get('b')).to.be.equals(undefined)
-  done()
+test('empty chain', function (t) {
+  t.equals(chain().get('a'), undefined)
+  t.equals(chain().get('b'), undefined)
+  t.end()
 })
 
-test('chain with one element', function (done) {
-  expect(chain({get: function () { return 'a' }}).get('b')).to.be.equals('a')
-  done()
+test('chain with one element', function (t) {
+  t.equals(chain({get: function () { return 'a' }}).get('b'), 'a')
+  t.end()
 })
 
-test('chain with two elements', function (done) {
+test('chain with two elements', function (t) {
   var chained = chain(
     {get: function (x) { return x === 'a' ? 'b' : null }},
     {get: function (x) { return 'c' }}
   )
-  expect(chained.get('a')).to.be.equals('b')
-  expect(chained.get('b')).to.be.equals('c')
-  done()
+  t.equals(chained.get('a'), 'b')
+  t.equals(chained.get('b'), 'c')
+  t.end()
 })
 
-test('chain with null element', function (done) {
+test('chain with null element', function (t) {
   var chained = chain(
     {get: function (x) { return x === 'a' ? 'b' : null }},
     null,
     {get: function (x) { return 'c' }}
   )
-  expect(chained.get('a')).to.be.equals('b')
-  expect(chained.get('b')).to.be.equals('c')
-  done()
+  t.equals(chained.get('a'), 'b')
+  t.equals(chained.get('b'), 'c')
+  t.end()
 })
