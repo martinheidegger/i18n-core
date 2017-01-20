@@ -52,8 +52,23 @@ test('sprintf strings to be treated as strings', function (t) {
   t.equals(__('%s', 'true'), 'true')
   t.equals(__('%s', null), 'null')
   t.equals(__('%s', 'null'), 'null')
-  t.equals(__('%s', undefined), 'undefined')
+  t.equals(__('%s', undefined), '%s')
   t.equals(__('%s', 'undefined'), 'undefined')
+  t.end()
+})
+
+test('sprintf strings should be cut with the last undefined string', function (t) {
+  var __ = i18n().__
+  t.equals(__('%s %s %s', 1, undefined), '1 undefined undefined')
+  t.equals(__('%s %s %s', '01', undefined), '01 undefined undefined')
+  t.equals(__('%s %s %s', false, undefined), 'false undefined undefined')
+  t.equals(__('%s %s %s', 'false', undefined), 'false undefined undefined')
+  t.equals(__('%s %s %s', true, undefined), 'true undefined undefined')
+  t.equals(__('%s %s %s', 'true', undefined), 'true undefined undefined')
+  t.equals(__('%s %s %s', null, undefined), 'null undefined undefined')
+  t.equals(__('%s %s %s', 'null', undefined), 'null undefined undefined')
+  t.equals(__('%s %s %s', undefined, undefined), '%s %s %s')
+  t.equals(__('%s %s %s', 'undefined', undefined), 'undefined undefined undefined')
   t.end()
 })
 
