@@ -24,7 +24,7 @@ function _defaultTranslation (that, value, fallbackKey, namedValues, args) {
   if (namedValues && (/{{.*}}/).test(value)) {
     value = that.mustache.render(value, namedValues)
   }
-  if (args !== null && args !== undefined && args.length > 0 && /%/.test(value)) {
+  if (args !== undefined && args.length > 0 && /%/.test(value)) {
     return that.vsprintf(value, args)
   }
   return value
