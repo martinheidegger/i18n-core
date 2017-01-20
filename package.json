@@ -4,7 +4,7 @@
   "description": "Basic i18n translation.",
   "main": "index.js",
   "scripts": {
-    "test": "tap --coverage -- test/**/*.js test/*.js",
+    "test": "tap --coverage --coverage-report=text-lcov -- test/**/*.js test/*.js | codeclimate-test-reporter",
     "lint": "eslint .",
     "unit": "tap -- test/**/*.js test/*.js"
   },
