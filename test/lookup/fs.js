@@ -41,7 +41,7 @@ test('empty file', function (t) {
   var hiddenFile = path.join(folder, 'hidden.json')
   var originalMode = fs.statSync(hiddenFile).mode
   try {
-    fs.chmodSync(hiddenFile, 0o100)
+    fs.chmodSync(hiddenFile, 64)
     t.equals(lookup.get('hidden.d'), undefined)
   } catch (e) {
     console.log(e)
