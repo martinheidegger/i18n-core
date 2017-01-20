@@ -925,9 +925,9 @@
       "dev": true
     },
     "mockery": {
-      "version": "1.7.0",
-      "from": "mockery@>=1.4.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/mockery/-/mockery-1.7.0.tgz",
+      "version": "2.0.0",
+      "from": "mockery@2.0.0",
+      "resolved": "https://registry.npmjs.org/mockery/-/mockery-2.0.0.tgz",
       "dev": true
     },
     "ms": {
@@ -937,9 +937,9 @@
       "dev": true
     },
     "mustache": {
-      "version": "0.8.2",
-      "from": "mustache@>=0.8.2 <0.9.0",
-      "resolved": "https://registry.npmjs.org/mustache/-/mustache-0.8.2.tgz"
+      "version": "2.3.0",
+      "from": "mustache@2.3.0",
+      "resolved": "https://registry.npmjs.org/mustache/-/mustache-2.3.0.tgz"
     },
     "mute-stream": {
       "version": "0.0.5",
