@@ -2,6 +2,8 @@ JavaScript: true
 engines:
   eslint:
     enabled: true
+    config:
+      config: .eslintrc
     checks:
       complexity:
         enabled: false
