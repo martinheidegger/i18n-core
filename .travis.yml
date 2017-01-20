@@ -13,3 +13,6 @@ cache:
   - ~/.npm
 before_install:
 - npm config set spin false --global
+env:
+  global:
+    secure: YMQXGtxXsOA3r1dtWfHFetxpyrsb6ks5UUeFyid3zzWin2356m+L6dSfzBem8aTVaQP3Eyh2YAjld5iZvhLPKdjXSWQYDwLvNHxBHavCgAvmBdmmntNsEUlbSZhzmuM55S1SM7AzPXxZKFClAkZwDcuAguPZw0YIdyR/dYPMRcs=
