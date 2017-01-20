@@ -1,0 +1,6 @@
+JavaScript: true
+engines:
+  eslint:
+    enabled: false
+  nodesecurity:
+    enabled: true
