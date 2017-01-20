@@ -1,17 +1,18 @@
 language: node_js
 node_js:
-- '7'
-- '6'
-- '4'
-- '0.12'
-- '0.10'
+  - '7'
+  - '6'
+  - '4'
+  - '0.12'
+  - '0.10'
 sudo: false
 git:
   depth: 5
 cache:
   directories:
-  - ~/.npm
+    - ~/.npm
 before_install:
-- npm config set spin false --global && npm i codeclimate-test-reporter -g
+  - npm config set spin false --global && npm i codeclimate-test-reporter -g
 env:
-- secure: TDu7Yw5x2cTaBRARvlCPNFxh/GCfOqUo0tt8BNf1ezQboUqTxeEKksAYLjV1AR3WzVjZIfwo9hZUaOlK1IhKjHZlfK3Y/OWMDeoG/oNiCAaJOPTHwiPREA9ePW1YZY7ylwp/JKmpt0P9/D5jrtlL5gVFfQKH9Fk+50SZJB0bviA=
+  matrix:
+    - secure: TDu7Yw5x2cTaBRARvlCPNFxh/GCfOqUo0tt8BNf1ezQboUqTxeEKksAYLjV1AR3WzVjZIfwo9hZUaOlK1IhKjHZlfK3Y/OWMDeoG/oNiCAaJOPTHwiPREA9ePW1YZY7ylwp/JKmpt0P9/D5jrtlL5gVFfQKH9Fk+50SZJB0bviA=
