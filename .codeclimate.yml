@@ -4,3 +4,5 @@ engines:
     enabled: false
   nodesecurity:
     enabled: true
+  markdownlint:
+    enabled: true
