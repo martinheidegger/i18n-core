@@ -3,10 +3,17 @@
   "version": "2.1.1",
   "description": "Basic i18n translation.",
   "main": "index.js",
+  "config": {
+    "tests": "test/**/*.js test/*.js"
+  },
   "scripts": {
-    "test": "tap --coverage --coverage-report=text-lcov -- test/**/*.js test/*.js | codeclimate-test-reporter",
-    "lint": "eslint .",
-    "unit": "tap -- test/**/*.js test/*.js"
+    "test": "if-env CODECLIMATE_REPO_TOKEN && npm run cov:code-climate || npm run test:dev",
+    "test:dev": "npm run lint && npm run cov:dev",
+    "test:unit": "tap -- $npm_package_config_tests",
+    "cov": "if-env CODECLIMATE_REPO_TOKEN && npm run cov:code-climate || npm run cov:dev",
+    "cov:code-climate": "tap --coverage --coverage-report=text-lcov -- $npm_package_config_tests | codeclimate-test-reporter",
+    "cov:dev": "tap --coverage --coverage-report=html -- $npm_package_config_tests",
+    "lint": "eslint ."
   },
   "author": {
     "name": "Martin Heidegger",
@@ -28,6 +35,7 @@
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.0.1",
+    "if-env": "^1.0.0",
     "mockery": "^1.4.0",
     "tap": "^9.0.3"
   }
