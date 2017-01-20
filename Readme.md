@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/martinheidegger/i18n-core.svg)](https://travis-ci.org/martinheidegger/i18n-core)
 [![Code Climate](https://codeclimate.com/github/martinheidegger/i18n-core/badges/gpa.svg)](https://codeclimate.com/github/martinheidegger/i18n-core)
 [![Test Coverage](https://codeclimate.com/github/martinheidegger/i18n-core/badges/coverage.svg)](https://codeclimate.com/github/martinheidegger/i18n-core/coverage)
+
 [i18n-core](https://github.io/martinheidegger/i18n-core) is a no-fuzz Node.js
 implementation of i18n. It doesn't connect to express or any other fancy Node
 framework and is extensible where it needs to be and allows to reduce the
