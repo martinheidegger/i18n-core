@@ -1,9 +1,8 @@
 'use strict'
 var tap = require('tap')
-var before = tap.before
-var after = tap.after
 var afterEach = tap.afterEach
 var test = tap.test
+var fs = require('fs')
 var fsLookup = require('../../lookup/fs')
 var path = require('path')
 var jsonFolderLookup = require('../../lookup/folder/json')
@@ -39,8 +38,17 @@ test('same file more than once', function (t) {
 
 test('empty file', function (t) {
   var lookup = fsLookup(folder)
-
-  t.equals(lookup.get('ja.d'), undefined)
+  var hiddenFile = path.join(folder, 'hidden.json')
+  var originalMode = fs.statSync(hiddenFile).mode
+  try {
+    fs.chmodSync(hiddenFile, 0o100)
+    t.equals(lookup.get('hidden.d'), undefined)
+  } catch (e) {
+    console.log(e)
+    fs.chmodSync(hiddenFile, originalMode)
+    throw e
+  }
+  fs.chmodSync(hiddenFile, originalMode)
   t.end()
 })
 
@@ -63,49 +71,41 @@ test('load a problematic string', function (t) {
   t.end()
 })
 
-test('fs errors', function () {
-  var mockery = require('mockery')
+var mockery = require('mockery')
+var allowables = ['../../lookup/fs', './folder/json.js']
+
+mockery.enable()
+mockery.registerAllowables(allowables)
+
+afterEach(function (cb) {
+  mockery.deregisterMock('fs')
+  cb()
+})
+
+test('fs exists error', function (t) {
   var existsMock = {
     existsSync: function () {
       throw new Error('fun!')
     }
   }
-  var allowables = ['../../lookup/fs', './folder/json.js']
+  mockery.registerMock('fs', existsMock)
+  var lookup = require('../../lookup/fs')(folder)
+  t.equals(lookup.get('en'), undefined)
+  t.end()
+})
+
+test('fs readFile error', function (t) {
   var readMock = {
     existsSync: function () { return true },
     readFileSync: function () {
       throw new Error('fax')
     }
   }
-
-  before(function (t) {
-    mockery.enable()
-    mockery.registerAllowables(allowables)
-    t.end()
-  })
-
-  test('fs exists error', function (t) {
-    mockery.registerMock('fs', existsMock)
-    var lookup = require('../../lookup/fs')(folder)
-    t.equals(lookup.get('en'), undefined)
-    t.end()
-  })
-
-  test('fs readFile error', function (t) {
-    mockery.registerMock('fs', readMock)
-    var lookup = require('../../lookup/fs')(folder)
-    t.equals(lookup.get('en'), undefined)
-    t.end()
-  })
-
-  afterEach(function (t) {
-    mockery.deregisterMock('fs')
-    t.end()
-  })
-
-  after(function (t) {
-    mockery.disable()
-    mockery.deregisterAllowables(allowables)
-    t.end()
-  })
+  mockery.registerMock('fs', readMock)
+  var lookup = require('../../lookup/fs')(folder)
+  t.equals(lookup.get('en'), undefined)
+  t.end()
 })
+
+mockery.disable()
+mockery.deregisterAllowables(allowables)
