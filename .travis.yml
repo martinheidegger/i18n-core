@@ -15,4 +15,4 @@ before_install:
 - npm config set spin false --global
 env:
   global:
-    secure: YMQXGtxXsOA3r1dtWfHFetxpyrsb6ks5UUeFyid3zzWin2356m+L6dSfzBem8aTVaQP3Eyh2YAjld5iZvhLPKdjXSWQYDwLvNHxBHavCgAvmBdmmntNsEUlbSZhzmuM55S1SM7AzPXxZKFClAkZwDcuAguPZw0YIdyR/dYPMRcs=
+    secure: TDu7Yw5x2cTaBRARvlCPNFxh/GCfOqUo0tt8BNf1ezQboUqTxeEKksAYLjV1AR3WzVjZIfwo9hZUaOlK1IhKjHZlfK3Y/OWMDeoG/oNiCAaJOPTHwiPREA9ePW1YZY7ylwp/JKmpt0P9/D5jrtlL5gVFfQKH9Fk+50SZJB0bviA=
