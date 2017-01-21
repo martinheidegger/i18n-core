@@ -99,6 +99,7 @@ test('changing of the language should not be possible after the fact', function 
   var __ = translator.__
 
   t.equals(__('d'), 'e')
+  t.equals(translator.changeSection, undefined)
   try {
     translator.changeLang('gr')
   } catch (e) {
