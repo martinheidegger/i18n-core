@@ -30,9 +30,13 @@ test('plural objects', function (t) {
   var __n = translator.__n
   t.equals(__n({one: 'a', other: '%s'}, 2, 'x'), 'en.2')
   t.equals(__n({1: 'b %s'}, 1, 'x'), 'en.b 1')
+  t.equals(__n({one: 'b %s'}, 1, 'x'), 'en.b 1')
   t.equals(__n({2: 'c %s'}, 2, 'x'), 'en.c 2')
   t.equals(__n({}, {2: 'd %s'}, 2, 'x'), 'en.d 2')
   t.equals(__n({}, {other: 'e %s'}, 2, 'x'), 'en.e 2')
+  t.equals(__n({other: 'e %s'}, {}, 2, 'x'), 'en.e 2')
+  t.equals(__n({one: 'e %s'}, {}, 2, 'x'), 'en.')
+  t.equals(__n({2: 'e %s'}, {}, 2, 'x'), 'en.e 2')
   t.end()
 })
 
@@ -41,10 +45,10 @@ test('plural fallbacks', function (t) {
   var __n = translator.__n
   t.equals(__n('a %s', 2, 'x'), 'en.a 2')
   t.equals(__n({other: 'b %s'}, 2, 'x'), 'en.b 2')
-  t.equals(__n({one: 'c %s'}, 2, 'x'), 'en.c 2')
+  t.equals(__n({one: 'c %s'}, 2, 'x'), 'en.')
   t.equals(__n({other: 'd %s'}, null, 2, 'x'), 'en.d 2')
   t.equals(__n({2: 'e %s'}, null, 2, 'x'), 'en.e 2')
-  t.equals(__n({one: 'f %s'}, null, 2, 'x'), 'en.f 2')
+  t.equals(__n({one: 'f %s'}, null, 2, 'x'), 'en.')
   t.equals(__n('g %s', null, 2, 'x'), 'en.g 2')
   t.end()
 })
@@ -55,5 +59,22 @@ test('plural special fallbacks', function (t) {
   t.equals(__n('a', 2), 'b')
   t.equals(__n('c', 2), 'e')
   t.equals(__n('g', {other: 'f'}, 2), 'f')
+  t.end()
+})
+
+test('singlular fallback to count', function (t) {
+  var translator = i18n({a: 'b', c: {one: 'd', other: 'e'}})
+  var __n = translator.__n
+  t.equals(__n({
+    2: 'ho'
+  }, {}, 2), 'ho')
+  t.end()
+})
+
+test('empty plurals', function (t) {
+  var translator = i18n({a: 'b', c: {one: 'd', other: 'e'}})
+  var __n = translator.__n
+  t.equals(__n(null, 2), '(?)')
+  t.equals(__n(null, 1), '(?)')
   t.end()
 })
