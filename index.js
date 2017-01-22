@@ -1,24 +1,11 @@
 'use strict'
 
+var getLookup = require('./lib/getLookup.js')
 function defaultFallback (key) {
   if (!key) {
     return '(?)'
   }
   return key
-}
-
-function getLookup (data) {
-  if (data && typeof data.get === 'function') {
-    // Direct lookup implementation pass-through
-    return data
-  } else if (typeof data === 'function') {
-    return {
-      get: data
-    }
-  } else if (typeof data === 'string') {
-    return require('./lookup/fs')(data)
-  }
-  return require('./lookup/object')(data || {})
 }
 
 function defaultTranslation (value, fallbackKey, namedValues, args) {
