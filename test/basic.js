@@ -24,19 +24,19 @@ test('basic existance object lookup', function (t) {
   t.end()
 })
 
-test('raw passthrough lookup', function (t) {
+test('get passthrough lookup', function (t) {
   var translator = i18n({a: 'b', c: null, d: {e: 'f', g: null}})
   var d = translator.lang('d')
-  t.equals(translator.raw('a'), 'b')
-  t.equals(translator.raw('b'), undefined)
-  t.equals(translator.raw('c'), null)
-  t.deepEquals(translator.raw('d'), {
+  t.equals(translator.get('a'), 'b')
+  t.equals(translator.get('b'), undefined)
+  t.equals(translator.get('c'), null)
+  t.deepEquals(translator.get('d'), {
     e: 'f',
     g: null
   })
-  t.equals(d.raw('e'), 'f')
-  t.equals(d.raw('g'), null)
-  t.equals(d.raw('h'), undefined)
+  t.equals(d.get('e'), 'f')
+  t.equals(d.get('g'), null)
+  t.equals(d.get('h'), undefined)
   t.end()
 })
 

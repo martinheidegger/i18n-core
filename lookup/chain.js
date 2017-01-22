@@ -17,16 +17,23 @@ module.exports = function i18nChain () {
       current = next
     }
   }
-  return {
-    get: function (key) {
-      var current = first
-      while (current) {
-        var value = current.handler.get(key)
-        if (value !== null && value !== undefined) {
-          return value
-        }
-        current = current.next
-      }
+  if (!first) {
+    return {
+      get: function () { return undefined }
     }
   }
+  if (!first.next) {
+    return first.handler
+  }
+  first.get = function (key) {
+    var current = first
+    while (current) {
+      var value = current.handler.get(key)
+      if (value !== null && value !== undefined) {
+        return value
+      }
+      current = current.next
+    }
+  }
+  return first
 }

@@ -19,6 +19,6 @@ test('extend i18n without lookup', function (t) {
     'a': 'b'
   }))
   t.equals(extended.get('a'), 'b')
-  t.equals(extended.get('b'), null)
+  t.equals(extended.get('b'), undefined)
   t.end()
 })

@@ -37,7 +37,7 @@ test('limiting sprintf to max 9 fields', function (t) {
       params,
       JSON.stringify({
         type: 'regular',
-        raw: __.raw('$'),
+        get: __.get('$'),
         allowed: allowed,
         prefix: prefix,
         params: params,
@@ -70,7 +70,7 @@ test('limiting sprintf to max 9 fields with an object', function (t) {
       JSON.stringify({
         args: args,
         type: 'with object',
-        raw: __.raw('$'),
+        get: __.get('$'),
         allowed: allowed,
         prefix: prefix,
         params: params,
@@ -102,7 +102,7 @@ test('limiting sprintf to max 9 fields', function (t) {
       params,
       JSON.stringify({
         type: 'regular',
-        raw: __.raw('$'),
+        get: __.get('$'),
         allowed: allowed,
         prefix: prefix,
         params: params,

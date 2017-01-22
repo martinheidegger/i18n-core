@@ -14,9 +14,9 @@ test('Using __n on __', function (t) {
   t.end()
 })
 
-test('Using raw on __', function (t) {
+test('Using get on __', function (t) {
   var __ = i18n({a: '%s'}).__
-  t.equals(__.raw('a'), '%s')
+  t.equals(__.get('a'), '%s')
   t.end()
 })
 

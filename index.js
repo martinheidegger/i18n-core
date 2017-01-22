@@ -31,7 +31,7 @@ function _defaultTranslation (that, value, fallbackKey, namedValues, args) {
 }
 
 function defaultTranslation (key, namedValues, args) {
-  return _defaultTranslation(this, this.raw(key), key, namedValues, args)
+  return _defaultTranslation(this, this.get(key), key, namedValues, args)
 }
 
 function defaultTranslationFirst (keys, fallbackKey, namedValues, args) {
@@ -39,19 +39,10 @@ function defaultTranslationFirst (keys, fallbackKey, namedValues, args) {
   var keyNo = 0
   while ((value === undefined || value === null) && keyNo < keys.length) {
     var key = keys[keyNo]
-    value = this.raw(key)
+    value = this.get(key)
     keyNo += 1
   }
   return _defaultTranslation(this, value, fallbackKey, namedValues, args)
-}
-
-function has (key) {
-  var val = this.raw(key)
-  return val !== undefined && val !== null
-}
-
-function raw (key) {
-  return this.lookup.get(key)
 }
 
 module.exports = function (data, allowModification) {
@@ -59,8 +50,7 @@ module.exports = function (data, allowModification) {
   var lookup = getLookup(data)
   translator.lookup = lookup
   translator.fallback = defaultFallback
-  translator.has = has
-  translator.raw = raw
+  translator.get = lookup.get.bind(lookup)
   translator.mustache = require('mustache')
   translator.vsprintf = require('sprintf').vsprintf
   translator.translate = defaultTranslation.bind(translator)
