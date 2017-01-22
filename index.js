@@ -21,25 +21,24 @@ function getLookup (data) {
   return require('./lookup/object')(data || {})
 }
 
-function _defaultTranslation (that, value, fallbackKey, namedValues, args) {
+function defaultTranslation (value, fallbackKey, namedValues, args) {
   if (value === null || value === undefined) {
-    value = that.fallback(fallbackKey)
+    value = this.fallback(fallbackKey)
   }
   if (namedValues && (/{{.*}}/).test(value)) {
-    value = that.mustache.render(value, namedValues)
+    value = this.mustache.render(value, namedValues)
   }
   if (args !== undefined && args.length > 0 && /%/.test(value)) {
-    return that.vsprintf(value, args)
+    return this.vsprintf(value, args)
   }
   return value
 }
 
-function defaultTranslation (key, namedValues, args) {
-  return _defaultTranslation(this, this.get(key), key, namedValues, args)
-}
-
-module.exports = function (data, allowModification) {
-  var translator = require('./lib/createTranslator')('', null, allowModification)
+module.exports = function (data) {
+  var translate = function (value, fallbackKey, namedValues, args) {
+    return translator.translate(value, fallbackKey, namedValues, args)
+  }
+  var translator = require('./lib/createTranslator')('', null, translate)
   var lookup = getLookup(data)
   translator.lookup = lookup
   translator.fallback = defaultFallback

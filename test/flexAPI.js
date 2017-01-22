@@ -63,6 +63,6 @@ test('Using sub on __', function (t) {
 
 test('Using translate on __', function (t) {
   var __ = i18n({a: 'b'}).__
-  t.equals(__.translate('a'), 'b')
+  t.equals(__.translate('b', 'a'), 'b')
   t.end()
 })
