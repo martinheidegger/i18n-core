@@ -38,17 +38,6 @@ function defaultTranslation (key, namedValues, args) {
   return _defaultTranslation(this, this.get(key), key, namedValues, args)
 }
 
-function defaultTranslationFirst (keys, fallbackKey, namedValues, args) {
-  var value = null
-  var keyNo = 0
-  while ((value === undefined || value === null) && keyNo < keys.length) {
-    var key = keys[keyNo]
-    value = this.get(key)
-    keyNo += 1
-  }
-  return _defaultTranslation(this, value, fallbackKey, namedValues, args)
-}
-
 module.exports = function (data, allowModification) {
   var translator = require('./lib/createTranslator')('', null, allowModification)
   var lookup = getLookup(data)
@@ -58,6 +47,5 @@ module.exports = function (data, allowModification) {
   translator.mustache = require('mustache')
   translator.vsprintf = require('sprintf').vsprintf
   translator.translate = defaultTranslation.bind(translator)
-  translator.translateFirst = defaultTranslationFirst.bind(translator)
   return translator
 }

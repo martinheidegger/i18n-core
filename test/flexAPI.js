@@ -66,9 +66,3 @@ test('Using translate on __', function (t) {
   t.equals(__.translate('a'), 'b')
   t.end()
 })
-
-test('Using translate on __', function (t) {
-  var __ = i18n({a: 'b'}).__
-  t.equals(__.translateFirst(['c', 'a']), 'b')
-  t.end()
-})

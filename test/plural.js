@@ -62,7 +62,7 @@ test('plural special fallbacks', function (t) {
   t.end()
 })
 
-test('singlular fallback to count', function (t) {
+test('singular fallback to count', function (t) {
   var translator = i18n({a: 'b', c: {one: 'd', other: 'e'}})
   var __n = translator.__n
   t.equals(__n({
