@@ -183,6 +183,6 @@ test('A repeated sub should work after a changePrefix on the first', function (t
 
 test('multiple keys with one being an empty string', function (t) {
   var translate = i18n({'a': '', 'b': 'ho'}).translate
-  t.equals(translate('', 'a'), '')
+  t.equals(translate('a'), '')
   t.end()
 })
