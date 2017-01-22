@@ -1,0 +1,46 @@
+#!/usr/bin/env node
+
+require('./bench')({
+  times: [
+    [10, 10],
+    [50, 50],
+    [100, 100],
+    [500, 500],
+    [1000, 1000],
+    [5000, 5000]
+  ],
+  prepareOne: test => test({
+      ctx: {
+        count: 0
+      }
+    }),
+  run: (bench) => {
+    bench(function scoped (target) {
+      var __ = function () {}
+      __.test = function () { target.ctx.count += 1 }
+      __.test1 = function () { target.ctx.count += 1 }
+      __.test2 = function () { target.ctx.count += 2 }
+      __.test3 = function () { target.ctx.count += 3 }
+      __.test4 = function () { target.ctx.count += 4 }
+      __.test5 = function () { target.ctx.count += 5 }
+      __.test6 = function () { target.ctx.count += 6 }
+      __.test7 = function () { target.ctx.count += 7 }
+      __.test8 = function () { target.ctx.count += 8 }
+      __.test9 = function () { target.ctx.count += 9 }
+      __.test10 = function () { target.ctx.count += 10 }
+      return () => {
+        __.test()
+      }
+    })
+
+    bench(function getterFallback (target) {
+      var __ = function () {}
+      __.test = function () {
+        target.ctx.count += 1
+      }
+      return () => {
+        __.test()
+      }
+    })
+  }
+})
