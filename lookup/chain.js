@@ -6,6 +6,11 @@ module.exports = function i18nChain () {
   for (var i = 0; i < arguments.length; i++) {
     var handler = arguments[i]
     if (handler) {
+      if (!handler.get && typeof handler === 'function') {
+        handler = {
+          get: handler
+        }
+      }
       var next = {
         handler: handler
       }

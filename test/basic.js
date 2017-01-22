@@ -45,6 +45,14 @@ test('custom lookup', function (t) {
   t.end()
 })
 
+test('custom function lookup', function (t) {
+  t.equals(i18n(function (key) {
+    t.equals(key, 'en.c')
+    return 'd'
+  }).lang('en').__('c'), 'd')
+  t.end()
+})
+
 test('basic file lookup is used when string is given', function (t) {
   t.equals(i18n(fsFolder).lang('en').__('b'), 'c')
   t.end()
