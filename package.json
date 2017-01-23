@@ -24,10 +24,6 @@
   "homepage": "https://github.com/martinheidegger/i18n-core",
   "bugs": "https://github.com/martinheidegger/i18n-core/issues",
   "license": "ISC",
-  "dependencies": {
-    "mustache": "^2.3.0",
-    "sprintf": "^0.1.4"
-  },
   "repository": {
     "type": "git",
     "url": "git@github.com:martinheidegger/i18n-core.git"

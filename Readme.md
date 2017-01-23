@@ -124,6 +124,28 @@ replacement like this:
 en.__("{{name}} are cool too", {name: "you"}); // "you are cool too"
 ```
 
+### Substitution variants
+
+By default `i18n-core` does not have any dependencies and the default
+substitution is `mustache`-like and `sprintf`-like with limited compatibility.
+
+_Without `mustache` and `sprintf` installed, it will use
+`require('i18n-core/simple')`_
+
+In order to get full compatibility you can simply install the peer dependency.
+
+_With `mustache` and `sprintf` installed, it will use
+`require('i18n-core/full')`_
+
+It is furthermore possible to customize the formatting by specifying own
+implementations:
+
+```javascript
+var i18n_core = require('i18n-core')
+i18n_core.mustache = require('mustache')
+i18n_core.vsprintf = require('sprintf').vsprintf
+```
+
 ## Advanced Namespaces
 
 It is possible to chain translation prefixes like this:
@@ -213,6 +235,52 @@ sub.abs('title') // Meine Webseite
 lang.changeSection('en')
 sub('title') // Curriculum Vitae
 sub.abs('title') // My Website
+```
+
+## Core API's
+
+The default API is made to provide a simple solutions to common problems but
+`i18n-core` also offers a reduced, faster API without conveniences. You can get
+access to the core by using `require('i18n-core/core')`.
+
+```javascript
+var core = require('i18n-core/core')({
+  get: function lookupValue (key) {
+    return // Return a value for the key or undefined
+  }
+}, function translate (value, fallbackKey, namedArgs, args) {
+  // value ......... value that should be translated
+  // fallbackKey ... fallbackKey that should be passed on to `fallback`
+  // namedArgs ..... named arguments passed in through the API, can be undefined
+  // args .......... regular arguments passed in through the API, can be undefined
+})
+core.get(key) // looks up a key
+core.has(key) // .get(key) !== undefined
+
+// translate the key with named & regular args
+core.translate(key, namedArgs, args)
+
+// translate the first found entry with a fallback
+// keys .......... Array of keys to test
+// fallbackKey ... Key to be passed on to `fallback`
+// namedArgs ..... `namedArgs` to be used when translating
+// args .......... `args` to be used when translating
+core.translateFirst(keys, fallbackKey, namedArgs, args)
+
+// Creates a api node where each key is prefixed
+// prefix .............. prefix to be set for each translation request
+// allowModification ... allows changePrefix API
+core.prefix(prefix, allowModification)
+
+// Changes the prefix of the API (undefined when modification forbidden)
+core.changePrefix(prefix)
+core.lock(locked) // Locks, unlocks the absolute root.
+core.absRoot // Holds the root fallback
+
+// Fields used for internal processing
+core.parent // Parent node (or undefined)
+core.translator // Quick lookup of the translation method
+core.currentPrefix // Prefix of the current node '' == null
 ```
 
 ## Outro
