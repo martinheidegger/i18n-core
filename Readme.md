@@ -115,9 +115,9 @@ i18n.__('b') // 1
 en.__("%s is cool", "he"); // "he is cool"
 ```
 
-following the logic of [sprintf](https://github.com/maritz/node-sprintf).
+following the logic of [`sprintf`](https://github.com/maritz/node-sprintf).
 
-It also offers [mustache](https://github.com/janl/mustache.js) pattern
+It also offers [`mustache`](https://github.com/janl/mustache.js)-like pattern
 replacement like this:
 
 ```JavaScript
@@ -163,6 +163,56 @@ using `raw`:
 ```JavaScript
 var translate = i18n_core({no: {val: 5}})
 translate.raw("no") // {val: 5}
+```
+
+## Absolute Lookups
+
+`i18n-core` supports the use of absolute roots. Absolute roots allow to lookup
+entries in absolute locked roots rather than the given level.
+
+```javascript
+var translate = i18n_core({
+    title: "Meine Webseite",
+    sectionA: {
+        title: "Lebenslauf"
+    }
+})
+
+var sub = translate.section('sectionA')
+sub('title') // Lebenslauf
+sub.abs('title') // Meine Webseite
+```
+
+This allows to crate things like footers where you can pass one section to a
+module and it is still able to access absolute code.
+
+However, this also creates the problem that subsections _(for languages)_ can be
+escaped from. In order to prevent that, you can lock the absolute root to
+`.lock()`. You can lock any section and any subsequent sections will get the
+same root.
+
+```javascript
+var translate = i18n_core({
+    de: {
+        title: "Meine Webseite",
+        sectionA: { title: "Lebenslauf" }
+    },
+    en: {
+        title: "My Website",
+        sectionA: { title: "Curriculum Vitae" }
+    }
+})
+var lang = translate
+  .section('de', true)
+  .lock() // This locks the absolute root to the language level
+
+var sub = lang.section('sectionA')
+sub('title') // Lebenslauf
+sub.abs('title') // Meine Webseite
+
+lang.changeSection('en')
+sub('title') // Curriculum Vitae
+sub.abs('title') // My Website
 ```
 
 ## Outro

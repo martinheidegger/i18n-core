@@ -141,7 +141,35 @@ function convertToAPI (node) {
   api.__ = api
   api.has = node.has.bind(node)
   api.get = node.get.bind(node)
+  api.getAbs = function (key) {
+    return node.absRoot.get(key)
+  }
+  api.abs = function abs (key, namedValues, a, b, c, d, e, f, g, h, i, j) {
+    if (typeof namedValues === 'object' && namedValues !== null) {
+      return ___(node.absRoot, key, namedValues, a, b, c, d, e, f, g, h, i, j)
+    }
+    return ___(node.absRoot, key, null, namedValues, a, b, c, d, e, f, g, h, i)
+  }
+  api.hasAbs = function (key) {
+    return node.absRoot.has(key)
+  }
   api.translate = node.translate.bind(node)
+  api.translateAbs = function (abs, key, namedValues, args) {
+    return node.absRoot.translate(abs, key, namedValues, args)
+  }
+  api.lock = function lock (lock) {
+    var newNode = node.lock(lock)
+    if (newNode === node) {
+      return api
+    }
+    return convertToAPI(newNode)
+  }
+  api.absN = function absN (singular, plural, count, namedValues, a, b, c, d, e, f, g, h, i, j) {
+    if (typeof plural !== 'object' && typeof plural !== 'string') {
+      return ___n(node.absRoot, singular, singular, plural, count, namedValues, a, b, c, d, e, f, g, h, i)
+    }
+    return ___n(node.absRoot, singular, plural, count, namedValues, a, b, c, d, e, f, g, h, i, j)
+  }
   api.__n = function __n (singular, plural, count, namedValues, a, b, c, d, e, f, g, h, i, j) {
     if (typeof plural !== 'object' && typeof plural !== 'string') {
       return ___n(node, singular, singular, plural, count, namedValues, a, b, c, d, e, f, g, h, i)
