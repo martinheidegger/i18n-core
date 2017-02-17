@@ -27,37 +27,37 @@ test('Using has on __', function (t) {
   t.end()
 })
 
-test('Using sub on __', function (t) {
+test('Using section on __', function (t) {
   var __ = i18n({x: {
     'a': 'b'
   }}).__
-  t.equals(__.sub('x.').__('a'), 'b')
+  t.equals(__.prefix('x.').__('a'), 'b')
   t.end()
 })
 
-test('Using changeLang on __', function (t) {
+test('Using changeSection on __', function (t) {
   var __ = i18n({
     en: {a: 'b'},
     de: {a: 'c'}
-  }).lang('en', true).__
-  __.changeLang('de')
+  }).section('en', true).__
+  __.changeSection('de')
   t.equals(__('a'), 'c')
   t.end()
 })
 
-test('Using lang on __', function (t) {
+test('Using section on __', function (t) {
   var __ = i18n({
     en: {a: 'b'}
   })
-  t.equals(__.lang('en').__('a'), 'b')
+  t.equals(__.section('en').__('a'), 'b')
   t.end()
 })
 
-test('Using sub on __', function (t) {
+test('Using prefix on __', function (t) {
   var __ = i18n({
     en: {a: 'b'}
   }).__
-  t.equals(__.sub('en.').__('a'), 'b')
+  t.equals(__.prefix('en.').__('a'), 'b')
   t.end()
 })
 

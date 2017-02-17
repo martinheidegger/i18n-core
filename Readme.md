@@ -30,7 +30,7 @@ i18n.__("greeting") // hello!
 ```
 
 To have different namespaces for different languages you can get a prefixed
-subpart using `.lang()`.
+translations using `.section()`.
 
 ```JavaScript
 
@@ -39,14 +39,14 @@ var i18n = i18n_core({
   de: { greeting: "guten tag!"}
 })
 
-var en = i18n.lang("en")
+var en = i18n.section("en")
 en.__("greeting") // hello!
 
-var de = i18n.lang("de")
+var de = i18n.section("de")
 de.__("greeting") // guten tag!
 ```
 
-_Note:_ `.lang(<lang>)` is the same thing as `.sub(<lang> + ".")`
+_Note:_ `.section(<section>)` is the same thing as `.prefix(<section> + ".")`
 
 ## Lookups
 
@@ -151,7 +151,7 @@ i18n_core.vsprintf = require('sprintf').vsprintf
 It is possible to chain translation prefixes like this:
 
 ```JavaScript
-var at = i18n_core({de:{at: {hello: "Zewas!"}}}).lang("de").lang("at");
+var at = i18n_core({de:{at: {hello: "Zewas!"}}}).section("de").section("at");
 at.__("hello") // Zewas!
 ```
 
@@ -161,13 +161,13 @@ and you can also change the chain if you want to.
 var translate = i18n_core({
     de: {title: "Meine Webseite"},
     en: {title: "My Website"}
-}).lang("de", true) // <- this true is important :)
+}).section("de", true) // <- this true is important :)
 translate.__("title") // Meine Website
-translate.changeLang("en")
+translate.changeSection("en")
 translate.__("title") // My Website
 ```
 
-To prevent malicious use the changing of the language is prevented unless you
+To prevent malicious use the changing of the section is prevented unless you
 pass a `true` flag to it.
 
 In some instances it is necessary to know in advance if a key has a value or

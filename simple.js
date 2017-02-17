@@ -176,9 +176,9 @@ function convertToAPI (node) {
     }
     return ___n(node, singular, plural, count, namedValues, a, b, c, d, e, f, g, h, i, j)
   }
-  api.sub = function (prefix, allowSubModification) {
-    if (allowSubModification) {
-      return convertToAPI(node.sub(prefix, allowSubModification))
+  api.prefix = function prefix (prefix, allowModification) {
+    if (allowModification) {
+      return convertToAPI(node.prefix(prefix, allowModification))
     }
     var subAPI
     if (!api.storage) {
@@ -187,18 +187,18 @@ function convertToAPI (node) {
       subAPI = api.storage[prefix]
     }
     if (!subAPI) {
-      subAPI = convertToAPI(node.sub(prefix, allowSubModification))
+      subAPI = convertToAPI(node.prefix(prefix, allowModification))
       api.storage[prefix] = subAPI
     }
     return subAPI
   }
-  api.lang = function lang (locale, allowSubModification) {
-    return api.sub(locale + '.', allowSubModification)
+  api.section = function section (locale, allowModification) {
+    return api.prefix(locale + '.', allowModification)
   }
   if (node.changePrefix) {
     api.changePrefix = node.changePrefix.bind(node)
-    api.changeLang = function changeLang (lang) {
-      node.changePrefix(lang + '.')
+    api.changeSection = function changeSection (section) {
+      node.changePrefix(section + '.')
     }
   }
   return api

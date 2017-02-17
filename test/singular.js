@@ -5,22 +5,22 @@ var path = require('path')
 var fsFolder = path.join(__dirname, 'lookup', 'fs')
 
 test('mustache testing', function (t) {
-  t.equals(i18n({'en': {a: '{{hello}}'}}).lang('en').__('a', {hello: 'd'}), 'd')
+  t.equals(i18n({'en': {a: '{{hello}}'}}).section('en').__('a', {hello: 'd'}), 'd')
   t.end()
 })
 
 test('args testing', function (t) {
-  t.equals(i18n({'en': {a: '%s'}}).lang('en').__('a', 'e'), 'e')
+  t.equals(i18n({'en': {a: '%s'}}).section('en').__('a', 'e'), 'e')
   t.end()
 })
 
 test('args without placeholder', function (t) {
-  t.equals(i18n({'en': {a: ''}}).lang('en').__('a', 'e'), '')
+  t.equals(i18n({'en': {a: ''}}).section('en').__('a', 'e'), '')
   t.end()
 })
 
 test('mixed mustache & args testing', function (t) {
-  t.equals(i18n({'en': {a: '%s {{hello}}'}}).lang('en').__('a', {hello: 'g'}, 'f'), 'f g')
+  t.equals(i18n({'en': {a: '%s {{hello}}'}}).section('en').__('a', {hello: 'g'}, 'f'), 'f g')
   t.end()
 })
 
@@ -31,13 +31,13 @@ test('empty key', function (t) {
 })
 
 test('empty key in namespace', function (t) {
-  var translator = i18n(fsFolder).lang('en')
+  var translator = i18n(fsFolder).section('en')
   t.equals(translator.__(''), 'en.')
   t.end()
 })
 
 test('undefined key in namespace', function (t) {
-  var translator = i18n(fsFolder).lang('en')
+  var translator = i18n(fsFolder).section('en')
   t.equals(translator.__(undefined), 'en.')
   t.end()
 })

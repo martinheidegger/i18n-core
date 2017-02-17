@@ -15,14 +15,14 @@ test('custom root fallback', function (t) {
   translator.fallback = function () {
     return 'x'
   }
-  translator = translator.lang('en')
+  translator = translator.section('en')
   t.equals(translator.__('a'), 'x')
   t.equals(translator.__(''), 'x')
   t.end()
 })
 
 test('custom child fallback should not work!', function (t) {
-  var translator = i18n().lang('en')
+  var translator = i18n().section('en')
   translator.fallback = function () {
     return 'x'
   }

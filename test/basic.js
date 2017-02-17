@@ -13,7 +13,7 @@ test('basic object lookup', function (t) {
 
 test('basic existance object lookup', function (t) {
   var translator = i18n({a: 'b', c: null, d: {e: 'f', g: null}})
-  var d = translator.lang('d')
+  var d = translator.section('d')
   t.equals(translator.has('a'), true)
   t.equals(translator.has('b'), false)
   t.equals(translator.has('c'), false)
@@ -26,7 +26,7 @@ test('basic existance object lookup', function (t) {
 
 test('get passthrough lookup', function (t) {
   var translator = i18n({a: 'b', c: null, d: {e: 'f', g: null}})
-  var d = translator.lang('d')
+  var d = translator.section('d')
   t.equals(translator.get('a'), 'b')
   t.equals(translator.get('b'), undefined)
   t.equals(translator.get('c'), null)
@@ -41,7 +41,7 @@ test('get passthrough lookup', function (t) {
 })
 
 test('custom lookup', function (t) {
-  t.equals(i18n(require('../lookup/object')({'en': {c: 'd'}})).lang('en').__('c'), 'd')
+  t.equals(i18n(require('../lookup/object')({'en': {c: 'd'}})).section('en').__('c'), 'd')
   t.end()
 })
 
@@ -49,24 +49,24 @@ test('custom function lookup', function (t) {
   t.equals(i18n(function (key) {
     t.equals(key, 'en.c')
     return 'd'
-  }).lang('en').__('c'), 'd')
+  }).section('en').__('c'), 'd')
   t.end()
 })
 
 test('basic file lookup is used when string is given', function (t) {
-  t.equals(i18n(fsFolder).lang('en').__('b'), 'c')
+  t.equals(i18n(fsFolder).section('en').__('b'), 'c')
   t.end()
 })
 
 test('same translator', function (t) {
   var set = i18n()
-  t.equals(set.lang('en'), set.lang('en'))
+  t.equals(set.section('en'), set.section('en'))
   t.end()
 })
 
 test('null namespace with key', function (t) {
   try {
-    i18n(fsFolder).sub(null)
+    i18n(fsFolder).prefix(null)
   } catch (e) {
     return t.end()
   }
@@ -75,25 +75,25 @@ test('null namespace with key', function (t) {
 
 test('undefined namespace with key', function (t) {
   try {
-    i18n(fsFolder).sub(undefined)
+    i18n(fsFolder).prefix(undefined)
   } catch (e) {
     return t.end()
   }
   throw new Error('Should not be allowed.')
 })
 
-test('changing of the language should be possible after the fact if allowed', function (t) {
-  var translator = i18n(fsFolder).lang('en', true)
+test('changing of the section should be possible after the fact if allowed', function (t) {
+  var translator = i18n(fsFolder).section('en', true)
   var __ = translator.__
 
   t.equals(__('d'), 'e')
-  translator.changeLang('gr')
+  translator.changeSection('gr')
   t.equals(__('d'), 'g')
   t.end()
 })
 
 test('changing of the prefix should be possible after the fact if allowed', function (t) {
-  var translator = i18n(fsFolder).lang('en', true)
+  var translator = i18n(fsFolder).section('en', true)
   var __ = translator.__
 
   t.equals(__('d'), 'e')
@@ -102,14 +102,14 @@ test('changing of the prefix should be possible after the fact if allowed', func
   t.end()
 })
 
-test('changing of the language should not be possible after the fact', function (t) {
-  var translator = i18n(fsFolder).lang('en')
+test('changing of the section should not be possible after the fact', function (t) {
+  var translator = i18n(fsFolder).section('en')
   var __ = translator.__
 
   t.equals(__('d'), 'e')
   t.equals(translator.changeSection, undefined)
   try {
-    translator.changeLang('gr')
+    translator.changeSection('gr')
   } catch (e) {
     t.equals(__('d'), 'e')
     t.end()
@@ -119,8 +119,8 @@ test('changing of the language should not be possible after the fact', function 
 })
 
 test('changing of the prefix should affect the subprefix', function (t) {
-  var translator = i18n(fsFolder).sub('g', true)
-  var translator2 = translator.lang('n')
+  var translator = i18n(fsFolder).prefix('g', true)
+  var translator2 = translator.section('n')
   var __ = translator2.__
 
   translator.changePrefix('e')
@@ -143,20 +143,20 @@ test('sprintf should be ignored when the given array has a length = 0', function
   t.end()
 })
 
-test('An undefined sub should work just fine', function (t) {
-  t.equals(i18n({en: 'a'}).sub('en').__(undefined), 'a')
-  t.equals(i18n({en: 'a'}).sub('en').__(null), 'a')
+test('An undefined prefix should work just fine', function (t) {
+  t.equals(i18n({en: 'a'}).prefix('en').__(undefined), 'a')
+  t.equals(i18n({en: 'a'}).prefix('en').__(null), 'a')
   t.end()
 })
 
-test('A repeated sub should work after a changePrefix', function (t) {
+test('A repeated prefix should work after a changePrefix', function (t) {
   var i = i18n({
     en: {x: '1'},
     de: {x: '2'}
   })
-  var enA = i.sub('en.')
-  var enB = i.sub('en.', true)
-  var enC = i.sub('en.')
+  var enA = i.prefix('en.')
+  var enB = i.prefix('en.', true)
+  var enC = i.prefix('en.')
   enB.changePrefix('de.')
   t.equals(enA.__('x'), '1')
   t.equals(enB.__('x'), '2')
@@ -170,9 +170,9 @@ test('A repeated sub should work after a changePrefix on the first', function (t
     de: {x: '2'},
     ja: {x: '3'}
   })
-  var enA = i.sub('en.', true)
-  var enB = i.sub('en.')
-  var enC = i.sub('en.', true)
+  var enA = i.prefix('en.', true)
+  var enB = i.prefix('en.')
+  var enC = i.prefix('en.', true)
   enA.changePrefix('de.')
   enC.changePrefix('ja.')
   t.equals(enA.__('x'), '2')

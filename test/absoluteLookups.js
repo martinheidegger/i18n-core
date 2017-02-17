@@ -9,35 +9,35 @@ test('absolute on root should work like a regular call', function (t) {
   t.end()
 })
 
-test('absolute on a sub should resolve to the parent', function (t) {
+test('absolute on a prefixed API should resolve to the parent', function (t) {
   var root = i18n({a: {b: 'c'}})
-  var sub = root.sub('a.')
-  t.equals(sub('b'), 'c')
-  t.equals(sub.getAbs('a.b'), 'c')
+  var prefixed = root.prefix('a.')
+  t.equals(prefixed('b'), 'c')
+  t.equals(prefixed.getAbs('a.b'), 'c')
   t.end()
 })
 
-test('absolute on a locked sub should resolve to the child', function (t) {
+test('absolute on a locked, prefixed API should resolve to the child', function (t) {
   var root = i18n({a: {b: 'c'}})
-  var sub = root.sub('a.').lock()
-  t.equals(sub('b'), 'c')
-  t.equals(sub.getAbs('a.b'), undefined)
+  var prefixed = root.prefix('a.').lock()
+  t.equals(prefixed('b'), 'c')
+  t.equals(prefixed.getAbs('a.b'), undefined)
   t.end()
 })
 
 test('unlocking shouldnt create a new node', function (t) {
   var root = i18n({a: {b: 'c'}})
-  var sub = root.sub('a.')
-  var newSub = sub.lock(false)
-  t.equals(sub, newSub)
+  var prefixed = root.prefix('a.')
+  var newPrefixed = prefixed.lock(false)
+  t.equals(prefixed, newPrefixed)
   t.end()
 })
 
-test('unlocking of a locked sub', function (t) {
+test('unlocking of a locked, prefixed API', function (t) {
   var root = i18n({a: {b: 'c'}})
-  var sub = root.sub('a.').lock().lock(false)
-  t.equals(sub('b'), 'c')
-  t.equals(sub.getAbs('a.b'), 'c')
+  var prefixed = root.prefix('a.').lock().lock(false)
+  t.equals(prefixed('b'), 'c')
+  t.equals(prefixed.getAbs('a.b'), 'c')
   t.end()
 })
 
@@ -48,41 +48,41 @@ test('t _ absolute on root should work like a regular call', function (t) {
   t.end()
 })
 
-test('t _ absolute on a sub should resolve to the parent', function (t) {
+test('t _ absolute on a prefixed API should resolve to the parent', function (t) {
   var root = i18n({a: {b: 'x%s'}})
-  var sub = root.sub('a.')
-  t.equals(sub('b', 'c'), 'xc')
-  t.equals(sub.abs('a.b', 'c'), 'xc')
+  var prefixed = root.prefix('a.')
+  t.equals(prefixed('b', 'c'), 'xc')
+  t.equals(prefixed.abs('a.b', 'c'), 'xc')
   t.end()
 })
 
-test('t _ absolute on a locked sub should resolve to the child', function (t) {
+test('t _ absolute on a locked, prefixed API should resolve to the child', function (t) {
   var root = i18n({a: {b: 'x%s'}})
-  var sub = root.sub('a.').lock()
-  t.equals(sub('b', 'c'), 'xc')
-  t.equals(sub.abs('a.b', 'c'), 'a.a.b')
+  var prefixed = root.prefix('a.').lock()
+  t.equals(prefixed('b', 'c'), 'xc')
+  t.equals(prefixed.abs('a.b', 'c'), 'a.a.b')
   t.end()
 })
 
-test('t _ unlocking of a locked sub', function (t) {
+test('t _ unlocking of a locked, prefixed API', function (t) {
   var root = i18n({a: {b: 'x%s'}})
-  var sub = root.sub('a.').lock().lock(false)
-  t.equals(sub('b', 'c'), 'xc')
-  t.equals(sub.abs('a.b', 'c'), 'xc')
+  var prefixed = root.prefix('a.').lock().lock(false)
+  t.equals(prefixed('b', 'c'), 'xc')
+  t.equals(prefixed.abs('a.b', 'c'), 'xc')
   t.end()
 })
 
 test('t _ abs with an object', function (t) {
   var root = i18n({a: {b: 'x{{x}}'}})
-  var sub = root.sub('a.').lock().lock(false)
-  t.equals(sub.abs('a.b', {x: 'c'}), 'xc')
+  var prefixed = root.prefix('a.').lock().lock(false)
+  t.equals(prefixed.abs('a.b', {x: 'c'}), 'xc')
   t.end()
 })
 
 test('translate _ abs with an object', function (t) {
   var root = i18n({a: {b: 'x{{x}}'}})
-  var sub = root.sub('a.').lock().lock(false)
-  t.equals(sub.translateAbs('a.b'), 'x{{x}}')
+  var prefixed = root.prefix('a.').lock().lock(false)
+  t.equals(prefixed.translateAbs('a.b'), 'x{{x}}')
   t.end()
 })
 
@@ -93,40 +93,40 @@ test('has _ absolute on root should work like a regular call', function (t) {
   t.end()
 })
 
-test('has _ absolute on a sub should resolve to the parent', function (t) {
+test('has _ absolute on a prefixed API should resolve to the parent', function (t) {
   var root = i18n({a: {b: 'c'}})
-  var sub = root.sub('a.')
-  t.equals(sub.has('b'), true)
-  t.equals(sub.hasAbs('a.b'), true)
+  var prefixed = root.prefix('a.')
+  t.equals(prefixed.has('b'), true)
+  t.equals(prefixed.hasAbs('a.b'), true)
   t.end()
 })
 
-test('has _ absolute on a locked sub should resolve to the child', function (t) {
+test('has _ absolute on a locked prefixed should resolve to the child', function (t) {
   var root = i18n({a: {b: 'c'}})
-  var sub = root.sub('a.').lock()
-  t.equals(sub.has('b'), true)
-  t.equals(sub.hasAbs('a.b'), false)
+  var prefixed = root.prefix('a.').lock()
+  t.equals(prefixed.has('b'), true)
+  t.equals(prefixed.hasAbs('a.b'), false)
   t.end()
 })
 
-test('has _ unlocking of a locked sub', function (t) {
+test('has _ unlocking of a locked, prefixed API', function (t) {
   var root = i18n({a: {b: 'c'}})
-  var sub = root.sub('a.').lock().lock(false)
-  t.equals(sub.has('b'), true)
-  t.equals(sub.hasAbs('a.b'), true)
+  var prefixed = root.prefix('a.').lock().lock(false)
+  t.equals(prefixed.has('b'), true)
+  t.equals(prefixed.hasAbs('a.b'), true)
   t.end()
 })
 
-test('n _ unlocking of a locked sub', function (t) {
+test('n _ unlocking of a locked, prefixed API', function (t) {
   var root = i18n({a: {b: 'c'}})
-  var sub = root.sub('hubba')
-  t.equals(sub.absN('a.b', 'a.c', 1), 'c')
+  var prefixed = root.prefix('hubba')
+  t.equals(prefixed.absN('a.b', 'a.c', 1), 'c')
   t.end()
 })
 
-test('n _ unlocking of a locked sub with object', function (t) {
+test('n _ unlocking of a locked, prefixed API with object', function (t) {
   var root = i18n({a: {b: '{{x}}'}})
-  var sub = root.sub('hubba')
-  t.equals(sub.absN('a.b', undefined, {x: 'c'}, 1), 'c')
+  var prefixed = root.prefix('hubba')
+  t.equals(prefixed.absN('a.b', undefined, {x: 'c'}, 1), 'c')
   t.end()
 })
