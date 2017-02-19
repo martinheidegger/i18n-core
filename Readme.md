@@ -30,7 +30,7 @@ i18n.__("greeting") // hello!
 ```
 
 To have different namespaces for different languages you can get a prefixed
-subpart using `.lang()`.
+translations using `.section()`.
 
 ```JavaScript
 
@@ -39,14 +39,14 @@ var i18n = i18n_core({
   de: { greeting: "guten tag!"}
 })
 
-var en = i18n.lang("en")
+var en = i18n.section("en")
 en.__("greeting") // hello!
 
-var de = i18n.lang("de")
+var de = i18n.section("de")
 de.__("greeting") // guten tag!
 ```
 
-_Note:_ `.lang(<lang>)` is the same thing as `.sub(<lang> + ".")`
+_Note:_ `.section(<section>)` is the same thing as `.prefix(<section> + ".")`
 
 ## Lookups
 
@@ -115,13 +115,35 @@ i18n.__('b') // 1
 en.__("%s is cool", "he"); // "he is cool"
 ```
 
-following the logic of [sprintf](https://github.com/maritz/node-sprintf).
+following the logic of [`sprintf`](https://github.com/maritz/node-sprintf).
 
-It also offers [mustache](https://github.com/janl/mustache.js) pattern
+It also offers [`mustache`](https://github.com/janl/mustache.js)-like pattern
 replacement like this:
 
 ```JavaScript
 en.__("{{name}} are cool too", {name: "you"}); // "you are cool too"
+```
+
+### Substitution variants
+
+By default `i18n-core` does not have any dependencies and the default
+substitution is `mustache`-like and `sprintf`-like with limited compatibility.
+
+_Without `mustache` and `sprintf` installed, it will use
+`require('i18n-core/simple')`_
+
+In order to get full compatibility you can simply install the peer dependency.
+
+_With `mustache` and `sprintf` installed, it will use
+`require('i18n-core/full')`_
+
+It is furthermore possible to customize the formatting by specifying own
+implementations:
+
+```javascript
+var i18n_core = require('i18n-core')
+i18n_core.mustache = require('mustache')
+i18n_core.vsprintf = require('sprintf').vsprintf
 ```
 
 ## Advanced Namespaces
@@ -129,7 +151,7 @@ en.__("{{name}} are cool too", {name: "you"}); // "you are cool too"
 It is possible to chain translation prefixes like this:
 
 ```JavaScript
-var at = i18n_core({de:{at: {hello: "Zewas!"}}}).lang("de").lang("at");
+var at = i18n_core({de:{at: {hello: "Zewas!"}}}).section("de").section("at");
 at.__("hello") // Zewas!
 ```
 
@@ -139,13 +161,13 @@ and you can also change the chain if you want to.
 var translate = i18n_core({
     de: {title: "Meine Webseite"},
     en: {title: "My Website"}
-}).lang("de", true) // <- this true is important :)
+}).section("de", true) // <- this true is important :)
 translate.__("title") // Meine Website
-translate.changeLang("en")
+translate.changeSection("en")
 translate.__("title") // My Website
 ```
 
-To prevent malicious use the changing of the language is prevented unless you
+To prevent malicious use the changing of the section is prevented unless you
 pass a `true` flag to it.
 
 In some instances it is necessary to know in advance if a key has a value or
@@ -163,6 +185,102 @@ using `raw`:
 ```JavaScript
 var translate = i18n_core({no: {val: 5}})
 translate.raw("no") // {val: 5}
+```
+
+## Absolute Lookups
+
+`i18n-core` supports the use of absolute roots. Absolute roots allow to lookup
+entries in absolute locked roots rather than the given level.
+
+```javascript
+var translate = i18n_core({
+    title: "Meine Webseite",
+    sectionA: {
+        title: "Lebenslauf"
+    }
+})
+
+var sub = translate.section('sectionA')
+sub('title') // Lebenslauf
+sub.abs('title') // Meine Webseite
+```
+
+This allows to crate things like footers where you can pass one section to a
+module and it is still able to access absolute code.
+
+However, this also creates the problem that subsections _(for languages)_ can be
+escaped from. In order to prevent that, you can lock the absolute root to
+`.lock()`. You can lock any section and any subsequent sections will get the
+same root.
+
+```javascript
+var translate = i18n_core({
+    de: {
+        title: "Meine Webseite",
+        sectionA: { title: "Lebenslauf" }
+    },
+    en: {
+        title: "My Website",
+        sectionA: { title: "Curriculum Vitae" }
+    }
+})
+var lang = translate
+  .section('de', true)
+  .lock() // This locks the absolute root to the language level
+
+var sub = lang.section('sectionA')
+sub('title') // Lebenslauf
+sub.abs('title') // Meine Webseite
+
+lang.changeSection('en')
+sub('title') // Curriculum Vitae
+sub.abs('title') // My Website
+```
+
+## Core API's
+
+The default API is made to provide a simple solutions to common problems but
+`i18n-core` also offers a reduced, faster API without conveniences. You can get
+access to the core by using `require('i18n-core/core')`.
+
+```javascript
+var core = require('i18n-core/core')({
+  get: function lookupValue (key) {
+    return // Return a value for the key or undefined
+  }
+}, function translate (value, fallbackKey, namedArgs, args) {
+  // value ......... value that should be translated
+  // fallbackKey ... fallbackKey that should be passed on to `fallback`
+  // namedArgs ..... named arguments passed in through the API, can be undefined
+  // args .......... regular arguments passed in through the API, can be undefined
+})
+core.get(key) // looks up a key
+core.has(key) // .get(key) !== undefined
+
+// translate the key with named & regular args
+core.translate(key, namedArgs, args)
+
+// translate the first found entry with a fallback
+// keys .......... Array of keys to test
+// fallbackKey ... Key to be passed on to `fallback`
+// namedArgs ..... `namedArgs` to be used when translating
+// args .......... `args` to be used when translating
+core.translateFirst(keys, fallbackKey, namedArgs, args)
+
+// Creates a api node where each key is prefixed
+// prefix .............. prefix to be set for each translation request
+// allowModification ... allows changePrefix API
+core.prefix(prefix, allowModification)
+
+// Changes the prefix of the API (undefined when modification forbidden)
+core.changePrefix(prefix)
+core.lock(locked) // Locks, unlocks the absolute root.
+core.absRoot // Holds the root fallback
+
+// Fields used for internal processing
+core.parent // Parent node (or undefined)
+core.translator // Quick lookup of the translation method
+core.currentPrefix // Prefix of the current node '' == null
 ```
 
 ## Outro

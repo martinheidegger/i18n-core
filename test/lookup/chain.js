@@ -23,6 +23,16 @@ test('chain with two elements', function (t) {
   t.end()
 })
 
+test('chain with two functions', function (t) {
+  var chained = chain(
+    function (x) { return x === 'a' ? 'b' : null },
+    function (x) { return 'c' }
+  )
+  t.equals(chained.get('a'), 'b')
+  t.equals(chained.get('b'), 'c')
+  t.end()
+})
+
 test('chain with null element', function (t) {
   var chained = chain(
     {get: function (x) { return x === 'a' ? 'b' : null }},

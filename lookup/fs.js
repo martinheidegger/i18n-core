@@ -27,7 +27,7 @@ module.exports = function (folder, strategy) {
     cache: {},
     folder: folder,
     strategy: strategy,
-    get: function get (key) {
+    get: function (key) {
       var keyParts = /^([^.]*)(\.(.*))?$/m.exec(key)
       var prefix = keyParts[1]
       var property = keyParts[3] || ''
