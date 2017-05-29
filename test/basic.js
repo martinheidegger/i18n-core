@@ -57,10 +57,10 @@ test('section lookup', function (t) {
   var translate = i18n({
     en: {
       sectionA: {
-        title: "Curriculum Vitae"
+        title: 'Curriculum Vitae'
       },
       menu: {
-        about: "About Me"
+        about: 'About Me'
       }
     }
   })
@@ -207,4 +207,3 @@ test('multiple keys with one being an empty string', function (t) {
   t.equals(translate('a'), '')
   t.end()
 })
-

@@ -29,16 +29,19 @@
     "url": "git@github.com:martinheidegger/i18n-core.git"
   },
   "devDependencies": {
+    "acorn-jsx": "^4.0.1",
+    "codeclimate-test-reporter": "github:codeclimate/javascript-test-reporter#97f1ff2cf18cd5f03191d3d53e671c47e954f2fa",
     "csv-stringify": "^1.0.4",
-    "eslint": "^3.13.1",
-    "eslint-config-standard": "^6.2.1",
-    "eslint-plugin-promise": "^3.4.0",
-    "eslint-plugin-standard": "^2.0.1",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
     "mockery": "^2.0.0",
+    "nyc": "^10.3.2",
     "standard-version": "^4.0.0",
-    "tap": "^9.0.3"
+    "tap": "^10.3.2"
   },
-  "dependencies": {
-    "codeclimate-test-reporter": "^0.4.1"
-  }
+  "dependencies": {}
 }
