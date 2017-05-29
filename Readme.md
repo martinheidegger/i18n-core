@@ -129,13 +129,17 @@ en.__("{{name}} are cool too", {name: "you"}); // "you are cool too"
 By default `i18n-core` does not have any dependencies and the default
 substitution is `mustache`-like and `sprintf`-like with limited compatibility.
 
-_Without `mustache` and `sprintf` installed, it will use
+_Note:_ Without `mustache` and `sprintf` installed, it will use
 `require('i18n-core/simple')`_
 
 In order to get full compatibility you can simply install the peer dependency.
 
-_With `mustache` and `sprintf` installed, it will use
-`require('i18n-core/full')`_
+```
+npm i mustache sprintf --save
+```
+
+_Note:_ **With** `mustache` and `sprintf` installed, it will use
+`require('i18n-core/full')`
 
 It is furthermore possible to customize the formatting by specifying own
 implementations:

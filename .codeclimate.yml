@@ -16,3 +16,6 @@ ratings:
    paths:
    - "**.js"
    - "**.md"
+
+exclude_paths:
+- "CHANGELOG.md"

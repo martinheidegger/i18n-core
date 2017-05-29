@@ -15,7 +15,7 @@
     "cov:code-climate": "tap --coverage --coverage-report=text-lcov -- $npm_package_config_tests | codeclimate-test-reporter",
     "cov:dev": "tap --coverage --coverage-report=html -- $npm_package_config_tests",
     "lint": "eslint .",
-    "release": "standard-version"
+    "release": "npm shrinkwrap && standard-version"
   },
   "author": {
     "name": "Martin Heidegger",
