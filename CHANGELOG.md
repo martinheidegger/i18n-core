@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/martinheidegger/i18n-core/compare/v3.0.0...v3.1.0) (2017-05-29)
+
+
+### Features
+
+* **api:** Added absPrefix and absSection api methods for more convenient use of ‘abs’ ([787e33f](https://github.com/martinheidegger/i18n-core/commit/787e33f))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/martinheidegger/i18n-core/compare/v2.1.1...v3.0.0) (2017-02-19)
 
