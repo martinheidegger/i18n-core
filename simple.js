@@ -2,6 +2,8 @@
 
 var getLookup = require('./lib/getLookup.js')
 var createRoot = require('./lib/createRoot.js')
+var vsprintfSimple = require('./lib/vsprintfSimple.js')
+var mustacheSimple = require('./lib/mustacheSimple.js')
 
 function defaultFallback (key) {
   if (!key) {
@@ -226,26 +228,6 @@ function convertToAPI (node) {
   return api
 }
 
-function mustacheSimple (value, namedValues) {
-  return value.replace(/{{(.*)}}/ig, function (match, param) {
-    if (/^{.*}$/.test(param)) {
-      param = param.substring(0, param.length - 1)
-    }
-    var val = namedValues[param]
-    if (val === null || val === undefined) {
-      return ''
-    }
-    return String(val)
-  })
-}
-
-function vsprintfSimple (value, args) {
-  var cnt = 0
-  return value.replace(/%s/ig, function (match) {
-    return String(args[cnt++])
-  })
-}
-
 module.exports = function (data) {
   var translator = function (value, key, namedValues, args) {
     return rootAPI.translator(value, key, namedValues, args)
@@ -253,9 +235,7 @@ module.exports = function (data) {
   var rootNode = createRoot(getLookup(data), translator)
   var rootAPI = convertToAPI(rootNode)
   rootAPI.fallback = defaultFallback
-  rootAPI.mustache = {
-    render: mustacheSimple
-  }
+  rootAPI.mustache = mustacheSimple
   rootAPI.vsprintf = vsprintfSimple
   rootAPI.translator = defaultTranslation.bind(rootAPI)
   return rootAPI
