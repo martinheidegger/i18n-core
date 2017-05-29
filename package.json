@@ -7,11 +7,11 @@
     "tests": "test/**/*.js test/*.js"
   },
   "scripts": {
-    "test": "if-env CODECLIMATE_REPO_TOKEN && npm run cov:code-climate || npm run test:simple",
-    "test:simple": "if-env CI=true && npm run test:unit || npm run test:dev",
+    "test": "[ -z \"$CODECLIMATE_REPO_TOKEN\" ] && npm run test:simple || npm run cov:code-climate",
+    "test:simple": "[ -z \"$CI\" ] && npm run test:dev || npm run test:unit",
     "test:dev": "npm run lint && npm run cov:dev",
     "test:unit": "tap -- $npm_package_config_tests",
-    "cov": "if-env CODECLIMATE_REPO_TOKEN && npm run cov:code-climate || npm run cov:dev",
+    "cov": "[ -z \"$CODECLIMATE_REPO_TOKEN\" ] && npm run cov:code-climate || npm run cov:dev",
     "cov:code-climate": "tap --coverage --coverage-report=text-lcov -- $npm_package_config_tests | codeclimate-test-reporter",
     "cov:dev": "tap --coverage --coverage-report=html -- $npm_package_config_tests",
     "lint": "eslint .",
@@ -34,9 +34,11 @@
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.0.1",
-    "if-env": "^1.0.0",
     "mockery": "^2.0.0",
     "standard-version": "^4.0.0",
     "tap": "^9.0.3"
+  },
+  "dependencies": {
+    "codeclimate-test-reporter": "^0.4.1"
   }
 }
