@@ -237,6 +237,31 @@ sub('title') // Curriculum Vitae
 sub.abs('title') // My Website
 ```
 
+Prefixing every absolute lookup with `abs` can get tedious that is why there is
+also the possibility to use `absSection` that, like `section`, returns a new
+translation object where every call assumes a particular absolute section.
+
+```javascript
+var translate = i18n_core({
+    en: {
+        sectionA: {
+            title: "Curriculum Vitae"
+        },
+        menu: {
+            about: "About Me"
+        }
+    }
+})
+var lang = translate.section('en', true).lock()
+
+var sectionA = lang.section('sectionA')
+sectionA('title') // Curriculum Vitae
+var menu = sectionA.absSection('menu')
+menu('about') // About Me
+```
+
+For your convenience there is also the `.root()` alias for `.absSection('')`.
+
 ## Core API's
 
 The default API is made to provide a simple solutions to common problems but
@@ -267,10 +292,15 @@ core.translate(key, namedArgs, args)
 // args .......... `args` to be used when translating
 core.translateFirst(keys, fallbackKey, namedArgs, args)
 
-// Creates a api node where each key is prefixed
+// Creates an api node where each key is prefixed
 // prefix .............. prefix to be set for each translation request
 // allowModification ... allows changePrefix API
 core.prefix(prefix, allowModification)
+
+// Creates an api node where each key is prefixed to an absolute root
+// prefix .............. prefix to be set for each translation request
+// allowModification ... allows changePrefix API
+core.absPrefix(prefix, allowModification)
 
 // Changes the prefix of the API (undefined when modification forbidden)
 core.changePrefix(prefix)
