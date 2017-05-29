@@ -14,7 +14,7 @@
     "cov": "[ -z \"$CODECLIMATE_REPO_TOKEN\" ] && npm run cov:code-climate || npm run cov:dev",
     "cov:code-climate": "tap --coverage --coverage-report=text-lcov -- $npm_package_config_tests | codeclimate-test-reporter",
     "cov:dev": "tap --coverage --coverage-report=html -- $npm_package_config_tests",
-    "lint": "eslint .",
+    "lint": "eslint --ignore-path .gitignore .",
     "release": "npm shrinkwrap && standard-version"
   },
   "author": {
