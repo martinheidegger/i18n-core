@@ -21,6 +21,12 @@ test('custom root fallback', function (t) {
   t.end()
 })
 
+test('fallback should show the absolute locks', function (t) {
+  var __ = i18n().section('en').lock().absSection('b.a')
+  t.equals(__('c'), 'en.b.a.c')
+  t.end()
+})
+
 test('custom child fallback should not work!', function (t) {
   var translator = i18n().section('en')
   translator.fallback = function () {
