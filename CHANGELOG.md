@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.1"></a>
+## [3.1.1](https://github.com/martinheidegger/i18n-core/compare/v3.1.0...v3.1.1) (2017-05-29)
+
+
+### Bug Fixes
+
+* **fallback:** In case of a fallback it now shows the proper absolute key. ([d0bf9f0](https://github.com/martinheidegger/i18n-core/commit/d0bf9f0))
+* **simple:** Fixed simple mustache lookups for escaped content. ([0114a92](https://github.com/martinheidegger/i18n-core/commit/0114a92))
+
+
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/martinheidegger/i18n-core/compare/v3.0.0...v3.1.0) (2017-05-29)
 
