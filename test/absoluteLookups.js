@@ -130,3 +130,51 @@ test('n _ unlocking of a locked, prefixed API with object', function (t) {
   t.equals(prefixed.absN('a.b', undefined, {x: 'c'}, 1), 'c')
   t.end()
 })
+
+test('using of an absolute prefix', function (t) {
+  var root = i18n({a: {b: 1}, b: 2})
+  var a1 = root.prefix('a.', true)
+  t.equals(a1('b'), 1)
+  var a2 = a1.absPrefix('')
+  t.equals(a2('b'), 2)
+  t.end()
+})
+
+test('using of an absolute prefix that can be modified', function (t) {
+  var root = i18n({a: {b: 1}, b: 2})
+  var prefixed = root.absPrefix('', true)
+  t.equals(prefixed('b'), 2)
+  prefixed.changePrefix('a.')
+  t.equals(prefixed('b'), 1)
+  t.end()
+})
+
+test('using of an absolute section', function (t) {
+  var root = i18n({a: {b: {c: 1}}, b: {c: 2}})
+  var a1 = root.prefix('a.b.', true)
+  t.equals(a1('c'), 1)
+  var a2 = a1.absSection('b')
+  t.equals(a2('c'), 2)
+  t.end()
+})
+
+test('root will result in the same lookup as absPrefix with ""', function (t) {
+  var initial = i18n({a: {b: 1}, b: 2})
+  var a1 = initial.prefix('a.')
+  var a2 = a1.absPrefix('')
+  var a3 = a1.root()
+  t.equals(a2('b'), a3('b'))
+  t.end()
+})
+
+test('an absolute prefix is required like a regular one', function (t) {
+  var root = i18n({a: {b: 1}, b: 2})
+  try {
+    root.absPrefix(null)
+  } catch (e) {
+    t.end()
+    return
+  }
+  t.fail('No error thrown.')
+  t.end()
+})

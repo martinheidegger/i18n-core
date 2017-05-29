@@ -176,7 +176,23 @@ function convertToAPI (node) {
     }
     return ___n(node, singular, plural, count, namedValues, a, b, c, d, e, f, g, h, i, j)
   }
-  api.prefix = function prefix (prefix, allowModification) {
+  api.absPrefix = function prefix (prefix, allowModification) {
+    if (allowModification) {
+      return convertToAPI(node.absPrefix(prefix, allowModification))
+    }
+    var subAPI
+    if (!api.absStorage) {
+      api.absStorage = {}
+    } else {
+      subAPI = api.absStorage[prefix]
+    }
+    if (!subAPI) {
+      subAPI = convertToAPI(node.absPrefix(prefix, allowModification))
+      api.absStorage[prefix] = subAPI
+    }
+    return subAPI
+  }
+  api.prefix = function (prefix, allowModification) {
     if (allowModification) {
       return convertToAPI(node.prefix(prefix, allowModification))
     }
@@ -191,6 +207,12 @@ function convertToAPI (node) {
       api.storage[prefix] = subAPI
     }
     return subAPI
+  }
+  api.root = function root () {
+    return api.absPrefix('')
+  }
+  api.absSection = function absSection (section, allowModification) {
+    return api.absPrefix(section + '.', allowModification)
   }
   api.section = function section (locale, allowModification) {
     return api.prefix(locale + '.', allowModification)
