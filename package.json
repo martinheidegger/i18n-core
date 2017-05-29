@@ -17,6 +17,9 @@
     "lint": "eslint --ignore-path .gitignore .",
     "release": "npm shrinkwrap && standard-version"
   },
+  "eslintConfig": {
+    "extends": "standard"
+  },
   "author": {
     "name": "Martin Heidegger",
     "email": "martin.heidegger@gmail.com"
