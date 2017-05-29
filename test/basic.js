@@ -53,6 +53,27 @@ test('custom function lookup', function (t) {
   t.end()
 })
 
+test('section lookup', function (t) {
+  var translate = i18n({
+      en: {
+          sectionA: {
+              title: "Curriculum Vitae"
+          },
+          menu: {
+              about: "About Me"
+          }
+      }
+  })
+  var lang = translate.section('en', true).lock()
+  var sectionA = lang.section('sectionA')
+  t.equals(lang('sectionA.title'), 'Curriculum Vitae')
+  t.equals(sectionA('title'), 'Curriculum Vitae')
+  var menu = sectionA.absSection('menu')
+  t.equals(lang('menu.about'), 'About Me')
+  t.equals(menu('about'), 'About Me')
+  t.end()
+})
+
 test('basic file lookup is used when string is given', function (t) {
   t.equals(i18n(fsFolder).section('en').__('b'), 'c')
   t.end()
