@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.5"></a>
+## [3.1.5](https://github.com/martinheidegger/i18n-core/compare/v3.1.3...v3.1.5) (2017-05-30)
+
+
+### Bug Fixes
+
+* properly escaping strings in simplified html rendering using ‘escape-html’ ([8b52f94](https://github.com/martinheidegger/i18n-core/commit/8b52f94))
+
+
+
 <a name="3.1.3"></a>
 ## [3.1.3](https://github.com/martinheidegger/i18n-core/compare/v3.1.2...v3.1.3) (2017-05-30)
 
