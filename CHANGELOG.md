@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.3"></a>
+## [3.1.3](https://github.com/martinheidegger/i18n-core/compare/v3.1.2...v3.1.3) (2017-05-30)
+
+
+### Bug Fixes
+
+* sections and absSection are now not interfering with each other ([d841df5](https://github.com/martinheidegger/i18n-core/commit/d841df5))
+
+
+
 <a name="3.1.2"></a>
 ## [3.1.2](https://github.com/martinheidegger/i18n-core/compare/v3.1.1...v3.1.2) (2017-05-29)
 
