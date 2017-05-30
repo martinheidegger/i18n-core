@@ -25,6 +25,13 @@ test('absolute on a locked, prefixed API should resolve to the child', function 
   t.end()
 })
 
+test('a section of an absolute section should not loose the prefixes.', function (t) {
+  var root = i18n({})
+  var prefixed = root.absSection('a').section('b')
+  t.equals(prefixed('c'), 'a.b.c')
+  t.end()
+})
+
 test('unlocking shouldnt create a new node', function (t) {
   var root = i18n({a: {b: 'c'}})
   var prefixed = root.prefix('a.')
