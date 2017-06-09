@@ -35,9 +35,13 @@
     "codeclimate-test-reporter": "github:codeclimate/javascript-test-reporter#97f1ff2cf18cd5f03191d3d53e671c47e954f2fa",
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-node": "^5.0.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
     "mockery": "^2.0.0",
     "standard-version": "^4.0.0",
-    "tap": "^10.3.2"
+    "tap": "^10.3.3"
   },
   "dependencies": {
     "escape-html": "^1.0.3"
