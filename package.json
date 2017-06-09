@@ -1,6 +1,6 @@
 {
   "name": "i18n-core",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "description": "Basic i18n translation.",
   "main": "index.js",
   "config": {

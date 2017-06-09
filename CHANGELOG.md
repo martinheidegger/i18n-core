@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.6"></a>
+## [3.1.6](https://github.com/martinheidegger/i18n-core/compare/v3.1.5...v3.1.6) (2017-06-09)
+
+
+### Bug Fixes
+
+* **simple:** Allow replacing multiple tokens in translations, contributed by Alex Potsides ([@achingbrain](https://github.com/achingbrain)) ([a69e02a](https://github.com/martinheidegger/i18n-core/commit/a69e02a))
+
+
+
 <a name="3.1.5"></a>
 ## [3.1.5](https://github.com/martinheidegger/i18n-core/compare/v3.1.3...v3.1.5) (2017-05-30)
 
