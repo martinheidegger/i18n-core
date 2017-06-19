@@ -191,6 +191,33 @@ var translate = i18n_core({no: {val: 5}})
 translate.raw('no') // {val: 5}
 ```
 
+## Listening to changes
+
+Since you can change translation nodes it is, in an interactive environment,
+good to have a way to be informed about changes. `i18n-core` has a **very**
+light-weight and fast event implementation tailored to the process.
+
+```javascript
+const parent = i18n_core({
+  de: {
+    site: {
+      title: 'Meine Webseite'
+    }
+  },
+  en: {
+    site: {
+      title: 'My Website'
+    }
+  }
+}).section('de', true)
+const translate = parent.section('site')
+translate.__('title') // Meine Webseite
+translate.on('contextChange', function () {
+  translate.__('title') // My Website
+})
+parent.changeSection('en')
+```
+
 ## Absolute Lookups
 
 `i18n-core` supports the use of absolute roots. Absolute roots allow to lookup
@@ -315,6 +342,9 @@ core.absRoot // Holds the root fallback
 core.parent // Parent node (or undefined)
 core.translator // Quick lookup of the translation method
 core.currentPrefix // Prefix of the current node '' == null
+
+core.on(type, handler) // Listen to changes of `changeContext`
+core.off(type, handler) // Remove the handler
 ```
 
 ## Outro

@@ -143,6 +143,12 @@ function convertToAPI (node) {
   api.__ = api
   api.has = node.has.bind(node)
   api.get = node.get.bind(node)
+  api.on = function (type, handler) {
+    node.on(type, handler)
+  }
+  api.off = function (type, handler) {
+    node.off(type, handler)
+  }
   api.getAbs = function (key) {
     return node.absRoot.get(key)
   }
