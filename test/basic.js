@@ -209,11 +209,11 @@ test('multiple keys with one being an empty string', function (t) {
 })
 
 test('events example from the documentation', function (t) {
-  const parent = i18n({
+  var parent = i18n({
     de: {site: {title: 'Meine Webseite'}},
     en: {site: {title: 'My Website'}}
   }).section('de', true)
-  const translate = parent.section('site')
+  var translate = parent.section('site')
   t.equals(translate.__('title'), 'Meine Webseite')
   translate.on('contextChange', function () {
     t.equals(translate.__('title'), 'My Website')
