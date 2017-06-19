@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.2.0"></a>
+# [3.2.0](https://github.com/martinheidegger/i18n-core/compare/v3.1.6...v3.2.0) (2017-06-19)
+
+
+### Features
+
+* **events:** Added event system to be able to be informed in case the context changes ([4343cfa](https://github.com/martinheidegger/i18n-core/commit/4343cfa))
+
+
+
 <a name="3.1.6"></a>
 ## [3.1.6](https://github.com/martinheidegger/i18n-core/compare/v3.1.5...v3.1.6) (2017-06-09)
 
