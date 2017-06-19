@@ -24,29 +24,29 @@ npm i i18n-core --save
 ## Usage
 
 ```JavaScript
-var i18n_core = require("i18n-core")
-var i18n = i18n_core({greeting: "hello!"})
-i18n.__("greeting") // hello!
+var i18n_core = require('i18n-core')
+var i18n = i18n_core({greeting: 'hello!'})
+i18n.__('greeting') // hello!
 ```
 
 To have different namespaces for different languages you can get a prefixed
 translations using `.section()`.
 
-```JavaScript
+```javascript
 
 var i18n = i18n_core({
-  en: { greeting: "hello!" },
-  de: { greeting: "guten tag!"}
+  en: { greeting: 'hello!' },
+  de: { greeting: 'guten tag!' }
 })
 
-var en = i18n.section("en")
-en.__("greeting") // hello!
+var en = i18n.section('en')
+en.__('greeting') // hello!
 
-var de = i18n.section("de")
-de.__("greeting") // guten tag!
+var de = i18n.section('de')
+de.__('greeting') // guten tag!
 ```
 
-_Note:_ `.section(<section>)` is the same thing as `.prefix(<section> + ".")`
+_Note:_ `.section(<section>)` is the same thing as `.prefix(<section> + '.')`
 
 ## Lookups
 
@@ -54,40 +54,40 @@ The system is based on `lookup` implementations that allow the system to use
 different sources to get its strings from. The examples before used an object
 and because of this the former example would be equal to:
 
-```JavaScript
-var i18n = i18n_core(require("i18n-core/lookup/object")({greeting: "hello!"}))
+```javascript
+var i18n = i18n_core(require('i18n-core/lookup/object')({greeting: 'hello!'}))
 ```
 
 If you were to pass in a string to `i18n-core` instead like this:
 
-```JavaScript
-var i18n = i18n_core("./")
+```javascript
+var i18n = i18n_core('./')
 ```
 
 Then it would be equal the primitive **file-system** lookup same like this:
 
-```JavaScript
-var i18n = i18n_core(require("i18n-core/lookup/fs")("./"))
+```javascript
+var i18n = i18n_core(require('i18n-core/lookup/fs')('./'))
 ```
 
 You can pass in your own strategy by given an object to the constructor that
 contains a "get"-method:
 
-```JavaScript
+```javascript
 var i18n = i18n_core({
-    get: function (key) {
-        return null; // Who needs translation anyway?
-    }
+  get: function (key) {
+    return null // Who needs translation anyway?
+  }
 })
 ```
 
 In case you need to have several strategies that need to be chained you can use
 the **chain lookup**:
 
-```JavaScript
-var i18nChain = require("i18n-core/lookup/chain")
-var i18nObject = require("i18n-core/lookup/object")
-var i18n = i18n_core(i18nChain(i18nObject({a: "x"}), i18nObject({a: 0, b: 1})))
+```javascript
+var i18nChain = require('i18n-core/lookup/chain')
+var i18nObject = require('i18n-core/lookup/object')
+var i18n = i18n_core(i18nChain(i18nObject({a: 'x'}), i18nObject({a: 0, b: 1})))
 i18n.__('a') // x
 i18n.__('b') // 1
 ```
@@ -95,12 +95,12 @@ i18n.__('b') // 1
 In case you have an `i18n` object that you want to use as lookup for another
 `i18` object you can **extend** them:
 
-```JavaScript
-var i18nExtend = require("i18n-core/lookup/extend")
-var i18nObject = require("i18n-core/lookup/object")
-var i18nA = i18n({a: "x"})
+```javascript
+var i18nExtend = require('i18n-core/lookup/extend')
+var i18nObject = require('i18n-core/lookup/object')
+var i18nA = i18n({a: 'x'})
 var i18nB = i18n(i18nExtend(i18nA, i18nObject({
-    b: 1
+  b: 1
 })))
 
 i18n.__('a') // x
@@ -111,8 +111,8 @@ i18n.__('b') // 1
 
 *i18n-core* does implement basic placeholder replacements like:
 
-```JavaScript
-en.__("%s is cool", "he"); // "he is cool"
+```javascript
+en.__('%s is cool', 'he') // 'he is cool'
 ```
 
 following the logic of [`sprintf`](https://github.com/maritz/node-sprintf).
@@ -120,8 +120,8 @@ following the logic of [`sprintf`](https://github.com/maritz/node-sprintf).
 It also offers [`mustache`](https://github.com/janl/mustache.js)-like pattern
 replacement like this:
 
-```JavaScript
-en.__("{{name}} are cool too", {name: "you"}); // "you are cool too"
+```javascript
+en.__('{{name}} are cool too', {name: 'you'}) // 'you are cool too'
 ```
 
 ### Substitution variants
@@ -130,7 +130,7 @@ By default `i18n-core` does not have any dependencies and the default
 substitution is `mustache`-like and `sprintf`-like with limited compatibility.
 
 _Note:_ Without `mustache` and `sprintf` installed, it will use
-`require('i18n-core/simple')`_
+`require('i18n-core/simple')`
 
 In order to get full compatibility you can simply install the peer dependency.
 
@@ -154,21 +154,21 @@ i18n_core.vsprintf = require('sprintf').vsprintf
 
 It is possible to chain translation prefixes like this:
 
-```JavaScript
-var at = i18n_core({de:{at: {hello: "Zewas!"}}}).section("de").section("at");
-at.__("hello") // Zewas!
+```javascript
+var at = i18n_core({de:{at: {hello: 'Zewas!'}}}).section('de').section('at')
+at.__('hello') // Zewas!
 ```
 
 and you can also change the chain if you want to.
 
-```JavaScript
+```javascript
 var translate = i18n_core({
-    de: {title: "Meine Webseite"},
-    en: {title: "My Website"}
-}).section("de", true) // <- this true is important :)
-translate.__("title") // Meine Website
-translate.changeSection("en")
-translate.__("title") // My Website
+  de: {title: 'Meine Webseite'},
+  en: {title: 'My Website'}
+}).section('de', true) // <- this true is important :)
+translate.__('title') // Meine Website
+translate.changeSection('en')
+translate.__('title') // My Website
 ```
 
 To prevent malicious use the changing of the section is prevented unless you
@@ -177,18 +177,18 @@ pass a `true` flag to it.
 In some instances it is necessary to know in advance if a key has a value or
 not, in this case you can use `has`.
 
-```JavaScript
-var translate = i18n_core({title: "My Website"})
-translate.has("title") // true
-translate.has("subtitle") // false
+```javascript
+var translate = i18n_core({title: 'My Website'})
+translate.has('title') // true
+translate.has('subtitle') // false
 ```
 
 Additionally, for module development, its possible to access the raw data
 using `raw`:
 
-```JavaScript
+```javascript
 var translate = i18n_core({no: {val: 5}})
-translate.raw("no") // {val: 5}
+translate.raw('no') // {val: 5}
 ```
 
 ## Absolute Lookups
@@ -198,10 +198,10 @@ entries in absolute locked roots rather than the given level.
 
 ```javascript
 var translate = i18n_core({
-    title: "Meine Webseite",
-    sectionA: {
-        title: "Lebenslauf"
-    }
+  title: 'Meine Webseite',
+  sectionA: {
+    title: 'Lebenslauf'
+  }
 })
 
 var sub = translate.section('sectionA')
@@ -219,14 +219,14 @@ same root.
 
 ```javascript
 var translate = i18n_core({
-    de: {
-        title: "Meine Webseite",
-        sectionA: { title: "Lebenslauf" }
-    },
-    en: {
-        title: "My Website",
-        sectionA: { title: "Curriculum Vitae" }
-    }
+  de: {
+    title: 'Meine Webseite',
+    sectionA: { title: 'Lebenslauf' }
+  },
+  en: {
+    title: 'My Website',
+    sectionA: { title: 'Curriculum Vitae' }
+  }
 })
 var lang = translate
   .section('de', true)
@@ -247,14 +247,14 @@ translation object where every call assumes a particular absolute section.
 
 ```javascript
 var translate = i18n_core({
-    en: {
-        sectionA: {
-            title: "Curriculum Vitae"
-        },
-        menu: {
-            about: "About Me"
-        }
+  en: {
+    sectionA: {
+      title: 'Curriculum Vitae'
+    },
+    menu: {
+      about: 'About Me'
     }
+  }
 })
 var lang = translate.section('en', true).lock()
 
